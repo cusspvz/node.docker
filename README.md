@@ -15,27 +15,34 @@ undefined
 
 ### Using as base image
 
-This image supports sugar building, as so, you just have to include your app's
-`package.json` on your `Dockerfile`.
+This image supports sugar building, meaning that your Dockerfile should look
+super simple (One-line), unless you need to install things into linux system.
+Suff related directly with `npm` and your app, should stay at `package.json`.
 
-As so, be sure to include a *package.json*:
+
+#### Brief example
+
+`package.json`
 ```json
 {
     "name": "my-awesome-app",
     "version": "1.0.3",
     "scripts": {
-        "build": "echo \"console.log( require('./package.json').name )\" > index.js",
-        "start": "node index.js"
+        "build": "echo \"console.log( window )\" > build/index.js",
+        "start": "node serve.js /build"
     }
 }
 ```
 
-And a *Dockerfile* with this line **ONLY**:
+`Dockerfile`
 ```Dockerfile
 FROM cusspvz/node:0.12.7
 ```
 
-And run `docker build -t my-awesome-app:1.0.3 .`.
+`docker build -t my-awesome-app:1.0.3 .` will build a production-ready image by
+installing all needed dependencies and linking things together.
+
+#### How does it works?
 
 Under the hood, it executes the following commands:
 * `ENV NODE_ENV=production` - This sets `NODE_ENV` as production so you can pull
@@ -54,6 +61,34 @@ Under the hood, it executes the following commands:
   behaviors:
   * ` ` - If nothing is supplied, it will just exec `node`
   * `start` (Default) - proxies `npm start` so your app could run
+
+#### What if i need to install stuff on my machine?
+
+```Dockerfile
+FROM cusspvz/node:0.12.7
+RUN apk --update add \
+        package-a package-b \
+    && \
+    rm -fR /var/cache/apk/*;
+```
+
+#### Wait, what the f*ck is `apk`?
+
+`apk` is the package manager for [Alpine Linux](//alpinelinux.org/) which this image is based.
+
+Its similar to:
+* `apt-get` on `.deb` based distros (Debian, Ubuntu, etc)
+* `yum` on `.rpm` based distros (CentOS, Fedora, etc)
+* `npm` on... ok, not quite but you got the idea.
+
+#### And how do I know packages names?
+
+[Alpine Linux](//alpinelinux.org/), like many other distros, keeps a [page](//pkgs.alpinelinux.org/packages) with all info and links
+for each package.
+
+#### Seems nice!! I'm gona use it on my next project!
+
+Cool!! Rate and tweet [GitHub repo](//github.com/cusspvz/node.docker) so others can know about this.
 
 ## Versions
 
