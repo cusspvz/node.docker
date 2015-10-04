@@ -1,12 +1,12 @@
 FROM alpine:3.2
 MAINTAINER José Moreira <jose.moreira@findhit.com>
 
-RUN apk add --update wget bash tar git;
+RUN apk add --update wget bash tar git libgcc libstdc++;
 ENV NODE_PREFIX=/usr/local \
     NODE_VERSION=latest
 RUN export NODE_SOURCE="/usr/src/node"; \
     export DOWNLOAD_PATH="https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}.tar.gz"; \
-    export APK_NEEDS="wget make gcc g++ python linux-headers paxctl libgcc libstdc++"; \
+    export APK_NEEDS="make gcc g++ python linux-headers paxctl"; \
     apk add --update $APK_NEEDS && \
     mkdir -p $NODE_SOURCE && \
     wget -O - $DOWNLOAD_PATH | tar -xz --strip-components=1 -C $NODE_SOURCE && \
@@ -33,10 +33,12 @@ RUN export NODE_SOURCE="/usr/src/node"; \
     mkdir -p /app;
 
 WORKDIR /app
-ENTRYPOINT [ "${NODE_PREFIX}/bin/node" ]
+ADD entrypoint /bin/entrypoint
+RUN chmod +x /bin/entrypoint
+ENTRYPOINT [ "/bin/entrypoint" ]
 
 # For sugar automated builds
 ONBUILD ADD . /app
 ONBUILD RUN npm install --production
 ONBUILD RUN npm run build
-ONBUILD CMD [ "npm", "start" ]
+ONBUILD CMD [ "start" ]

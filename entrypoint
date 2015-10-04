@@ -1,0 +1,15 @@
+#!/bin/bash
+ARGUMENTS=$@
+
+if [ "$ARGUMENTS" == "" ]; then
+    exec $NODE_PREFIX/bin/node
+    exit $?
+fi
+
+if [ "$ARGUMENTS" == "start" ]; then
+    cd /app
+    exec $NODE_PREFIX/bin/npm start
+    exit $?
+fi
+
+echo "feature not implemented, please change entrypoint"

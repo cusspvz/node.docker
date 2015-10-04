@@ -18,7 +18,7 @@ fetch-versions:
 	@wget https://nodejs.org/dist/ -O - 2>/dev/null | \
 	grep "/\">v" | \
 	sed -e 's/<a href="v\(.*\)\/".*/\1/' | \
-	sort -t . -k1,1nr -k2,1nr \
+	sort -t . -k1,1nr -k2,1nr -k3,1nr \
 		> versions
 
 build:
