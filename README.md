@@ -1,6 +1,6 @@
 # cusspvz/node
 
-🌐Super small Node.js container (3MB) based on Alpine Linux OS
+🌐Super small Node.js container (~20MB) based on Alpine Linux OS
 
 ## Usage
 
