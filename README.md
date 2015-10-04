@@ -62,7 +62,7 @@ Under the hood, it executes the following commands:
   * ` ` - If nothing is supplied, it will just exec `node`
   * `start` (Default) - proxies `npm start` so your app could run
 
-#### What if i need to install stuff on my machine?
+#### What if i need to install stuff on my container?
 
 ```Dockerfile
 FROM cusspvz/node:0.12.7
