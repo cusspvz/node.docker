@@ -5,7 +5,7 @@
 ## Usage
 
 ### Running node interpreter
-```
+```bash
 josemoreira@MacBook-Pro-de-JM ~/G/c/node.docker> docker run --rm -ti cusspvz/node:0.12.7
 > console.log("yOLO")
 yOLO
@@ -19,7 +19,7 @@ This image supports sugar building, as so, you just have to include your app's
 `package.json` on your `Dockerfile`.
 
 As so, be sure to include a *package.json*:
-```package.json
+```json
 {
     "name": "my-awesome-app",
     "version": "1.0.3",
