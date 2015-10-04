@@ -8,6 +8,8 @@ else
 	TAG := $(VERSION)
 endif
 
+VERSION_PATH := version/${TAG}/
+
 run: build
 	@docker run --rm -ti cusspvz/node:${TAG}
 
@@ -21,14 +23,22 @@ fetch-versions:
 	sort -t . -k1,1nr -k2,1nr -k3,1nr \
 		> versions
 
-build:
+gen-version:
+	@echo "Updating ${VERSION_PATH}"
+	@mkdir -p ${VERSION_PATH}
+	@cat Dockerfile | sed -e "s/NODE_VERSION=latest/NODE_VERSION=${VERSION}/" > ${VERSION_PATH}/Dockerfile
+
+build: gen-version
 	@echo "Building ${TAG}"
-	@cat Dockerfile | sed -e "s/NODE_VERSION=latest/NODE_VERSION=${VERSION}/" > Dockerfile.tmp
-	@-docker build -t cusspvz/node:${TAG} -f Dockerfile.tmp .
-	@rm Dockerfile.tmp
+	@docker build -t cusspvz/node:${TAG} -f ${VERSION_PATH}/Dockerfile .
 
 push: build
 	docker push cusspvz/node:${TAG}
+
+gen-version-all:
+	@for VERSION in $(shell cat versions); do \
+		make VERSION=$$VERSION gen-version; \
+	done;
 
 build-all: fetch-versions
 	@for VERSION in $(shell cat versions); do \

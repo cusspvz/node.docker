@@ -1,4 +1,4 @@
-FROM alpine:3.2
+FROM alpine:edge
 MAINTAINER José Moreira <jose.moreira@findhit.com>
 
 RUN apk add --update wget bash tar git libgcc libstdc++;

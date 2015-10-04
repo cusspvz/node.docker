@@ -57,8 +57,12 @@ Under the hood, it executes the following commands:
 
 ## Versions
 
-I'm building images on my computer, as so, versions won't be available since I
-have to check/build one by one.
+~~I'm building images on my computer, as so, versions won't be available since I
+have to check/build one by one.~~
+
+Created `make VERSION=xxx gen-version` to create/update Dockerfile's for each
+version so I can use Docker Hub builder instead. That doesn't mean that all
+versions are working, as so, this list will be kept to be updated.
 
 :white_check_mark: - Built and working
 
