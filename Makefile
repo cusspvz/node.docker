@@ -11,6 +11,10 @@ endif
 VERSION_PATH := version/${TAG}/
 VERSION_ONBUILD_PATH := version/${TAG}-onbuild/
 
+DOCKER_HUB_BUILD_TOKEN := $(shell cat .dockerhubbuildtoken || 'none')
+
+clean: clean-all-docker-images
+
 run: build
 	@docker run --rm -ti cusspvz/node:${TAG}
 
@@ -65,3 +69,23 @@ gen-autosuildstore-build-tags-json-all:
 	OUTPUT+="];"; \
 	OUTPUT+="\$$r.forceUpdate();"; \
 	echo "$$OUTPUT";
+
+show-all-docker-images:
+	@docker images | grep "^cusspvz/node";
+
+clean-all-docker-images:
+	docker rmi -f \
+		`docker images | grep "^cusspvz/node" | while read repo version image nonimportant; do echo $$image; done;`
+
+trigger-all-docker-hub-build:
+	@for VERSION in $(shell cat versions); do \
+		echo "Triggering build for version $$VERSION"; \
+		curl -H "Content-Type: application/json" --data '{"docker_tag": "$$VERSION"}' -X POST https://registry.hub.docker.com/u/cusspvz/node/trigger/${DOCKER_HUB_BUILD_TOKEN}/; \
+		echo '--'; echo; \
+	done;
+	@echo "Sleeping for 120 secs, so we can trigger -onbuild builds"; sleep 120;
+	@for VERSION in $(shell cat versions); do \
+		echo "Triggering build for version $${VERSION}-onbuild"; \
+		curl -H "Content-Type: application/json" --data '{"docker_tag": "$${VERSION}-onbuild"}' -X POST https://registry.hub.docker.com/u/cusspvz/node/trigger/${DOCKER_HUB_BUILD_TOKEN}/; \
+		echo '--'; echo; \
+	done;
