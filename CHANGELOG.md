@@ -8,6 +8,7 @@ on newer Docker Hub.
 * Add Docker Hub build triggers so i don't have to track them from the UI
 * Added `clean` on Makefile to clean development things
 * Set `wget` to be non-verbose, so we don't get huge logs on DH.
+* Added `sh` | `bash` option into entrypoint
 
 ## 4-Out-2015
 

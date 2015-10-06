@@ -5,12 +5,24 @@
 ## Usage
 
 ### Running node interpreter
+
+Executing `node`:
 ```bash
-josemoreira@MacBook-Pro-de-JM ~/G/c/node.docker> docker run --rm -ti cusspvz/node:0.12.7
+# docker run --rm -ti cusspvz/node:0.12.7
+# OR
+# docker run --rm -ti cusspvz/node:0.12.7 node
 > console.log("yOLO")
 yOLO
 undefined
 >
+```
+
+Executing `shell`:
+```bash
+# docker run --rm -ti cusspvz/node:0.12.7 shell
+# OR
+# docker run --rm -ti cusspvz/node:0.12.7 bash
+/app#
 ```
 
 ### Using as base image
@@ -61,6 +73,7 @@ Under the hood, it executes the following commands:
   behaviors:
   * ` ` - If nothing is supplied, it will just exec `node`
   * `start` (Default) - proxies `npm start` so your app could run
+  * `shell` - proxies to `/bin/sh`
 
 #### What if i need to install stuff on my container?
 
@@ -108,6 +121,12 @@ for each package.
 #### Seems nice!! I'm gona use it on my next project!
 
 Cool!! Rate and tweet [GitHub repo](//github.com/cusspvz/node.docker) so others can know about this.
+
+### What if I want to access and execute some shitty shell things?
+
+```bash
+docker run --rm -ti cusspvz/node:0.12.7 shell
+```
 
 ## Versions
 
