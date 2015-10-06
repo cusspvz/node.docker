@@ -25,7 +25,7 @@ Executing `shell`:
 /app#
 ```
 
-#### Implementing as an bash alias
+#### Implementing as a bash alias
 
 Nice to run different node versions on-the-fly
 
@@ -35,7 +35,7 @@ Add the function above
 ```bash
 dnode () {
     VERSION=$1;
-    docker run --rm -ti -l $PWD:/app cusspvz/node:\$VERSION;
+    docker run --rm -ti -l $PWD:/app cusspvz/node:$VERSION;
 }
 ```
 
