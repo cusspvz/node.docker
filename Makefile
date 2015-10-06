@@ -81,11 +81,13 @@ trigger-all-docker-hub-build:
 	@for VERSION in $(shell cat versions); do \
 		echo "Triggering build for version $$VERSION"; \
 		curl -H "Content-Type: application/json" --data '{"docker_tag": "$$VERSION"}' -X POST https://registry.hub.docker.com/u/cusspvz/node/trigger/${DOCKER_HUB_BUILD_TOKEN}/; \
+		sleep 20; \
 		echo '--'; echo; \
 	done;
 	@echo "Sleeping for 120 secs, so we can trigger -onbuild builds"; sleep 120;
 	@for VERSION in $(shell cat versions); do \
 		echo "Triggering build for version $${VERSION}-onbuild"; \
 		curl -H "Content-Type: application/json" --data '{"docker_tag": "$${VERSION}-onbuild"}' -X POST https://registry.hub.docker.com/u/cusspvz/node/trigger/${DOCKER_HUB_BUILD_TOKEN}/; \
+		sleep 20; \
 		echo '--'; echo; \
 	done;
