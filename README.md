@@ -15,12 +15,12 @@ undefined
 
 ### Using as base image
 
-This image supports sugar building, meaning that your Dockerfile should look
-super simple (One-line), unless you need to install things into linux system.
+This image supports sugar onbuild, meaning that your Dockerfile could be super
+hyper simple (as one-line), unless you need to install things into linux system.
 Suff related directly with `npm` and your app, should stay at `package.json`.
 
 
-#### Brief example
+#### Brief onbuild example
 
 `package.json`
 ```json
@@ -36,13 +36,13 @@ Suff related directly with `npm` and your app, should stay at `package.json`.
 
 `Dockerfile`
 ```Dockerfile
-FROM cusspvz/node:0.12.7
+FROM cusspvz/node:0.12.7-onbuild
 ```
 
 `docker build -t my-awesome-app:1.0.3 .` will build a production-ready image by
 installing all needed dependencies and linking things together.
 
-#### How does it works?
+#### How does `onbuild` works?
 
 Under the hood, it executes the following commands:
 * `ENV NODE_ENV=production` - This sets `NODE_ENV` as production so you can pull
@@ -64,12 +64,31 @@ Under the hood, it executes the following commands:
 
 #### What if i need to install stuff on my container?
 
+Where are two ways of doing this. If packages aren't direct dependencies to your
+app, you could continue to use `onbuild` version. Otherwise, if you `onbuild` is
+failing because `npm install` declares the needs of some dependencies, you will
+have to use regular version.
+
+##### onbuild way:
+```Dockerfile
+FROM cusspvz/node:0.12.7-onbuild
+RUN apk --update add package-a package-b && \
+    rm -fR /var/cache/apk/*;
+```
+
+##### regular way:
 ```Dockerfile
 FROM cusspvz/node:0.12.7
-RUN apk --update add \
-        package-a package-b \
-    && \
+RUN apk --update add package-a package-b && \
     rm -fR /var/cache/apk/*;
+
+ENV NODE_ENV=production
+ADD . /app
+
+RUN npm install --production
+RUN npm run build
+
+CMD [ "start" ]
 ```
 
 #### Wait, what the f*ck is `apk`?
@@ -103,162 +122,162 @@ versions are working, as so, this list will be kept to be updated.
 
 Others aren't built, or are presenting errors.
 
-* :white_check_mark: 4.1.0 - `cusspvz/node:4.1.0`
-* :white_check_mark: 4.1.1 - `cusspvz/node:4.1.1`
-* :white_check_mark: 4.0.0 - `cusspvz/node:4.0.0`
-* :white_check_mark: 0.12.7 - `cusspvz/node:0.12.7`
-* :white_check_mark: 0.12.6 - `cusspvz/node:0.12.6`
-* :white_check_mark: 0.12.5 - `cusspvz/node:0.12.5`
-* :white_check_mark: 0.12.4 - `cusspvz/node:0.12.4`
-* :white_check_mark: 0.12.3 - `cusspvz/node:0.12.3`
-* :white_check_mark: 0.12.2 - `cusspvz/node:0.12.2`
-* :white_check_mark: 0.12.1 - `cusspvz/node:0.12.1`
-* ~~0.12.0 - `cusspvz/node:0.12.0`~~
-* ~~0.11.16 - `cusspvz/node:0.11.16`~~
-* ~~0.11.15 - `cusspvz/node:0.11.15`~~
-* ~~0.11.14 - `cusspvz/node:0.11.14`~~
-* ~~0.11.13 - `cusspvz/node:0.11.13`~~
-* ~~0.11.12 - `cusspvz/node:0.11.12`~~
-* ~~0.11.11 - `cusspvz/node:0.11.11`~~
-* ~~0.11.10 - `cusspvz/node:0.11.10`~~
-* ~~0.11.9 - `cusspvz/node:0.11.9`~~
-* ~~0.11.8 - `cusspvz/node:0.11.8`~~
-* ~~0.11.7 - `cusspvz/node:0.11.7`~~
-* ~~0.11.6 - `cusspvz/node:0.11.6`~~
-* ~~0.11.5 - `cusspvz/node:0.11.5`~~
-* ~~0.11.4 - `cusspvz/node:0.11.4`~~
-* ~~0.11.3 - `cusspvz/node:0.11.3`~~
-* ~~0.11.2 - `cusspvz/node:0.11.2`~~
-* ~~0.11.1 - `cusspvz/node:0.11.1`~~
-* ~~0.11.0 - `cusspvz/node:0.11.0`~~
-* ~~0.10.40 - `cusspvz/node:0.10.40`~~
-* ~~0.10.39 - `cusspvz/node:0.10.39`~~
-* ~~0.10.38 - `cusspvz/node:0.10.38`~~
-* ~~0.10.37 - `cusspvz/node:0.10.37`~~
-* ~~0.10.36 - `cusspvz/node:0.10.36`~~
-* ~~0.10.35 - `cusspvz/node:0.10.35`~~
-* ~~0.10.34 - `cusspvz/node:0.10.34`~~
-* ~~0.10.33 - `cusspvz/node:0.10.33`~~
-* ~~0.10.32 - `cusspvz/node:0.10.32`~~
-* ~~0.10.31 - `cusspvz/node:0.10.31`~~
-* ~~0.10.30 - `cusspvz/node:0.10.30`~~
-* ~~0.10.29 - `cusspvz/node:0.10.29`~~
-* ~~0.10.28 - `cusspvz/node:0.10.28`~~
-* ~~0.10.27 - `cusspvz/node:0.10.27`~~
-* ~~0.10.26 - `cusspvz/node:0.10.26`~~
-* ~~0.10.25 - `cusspvz/node:0.10.25`~~
-* ~~0.10.24 - `cusspvz/node:0.10.24`~~
-* ~~0.10.23 - `cusspvz/node:0.10.23`~~
-* ~~0.10.22 - `cusspvz/node:0.10.22`~~
-* ~~0.10.21 - `cusspvz/node:0.10.21`~~
-* ~~0.10.20 - `cusspvz/node:0.10.20`~~
-* ~~0.10.19 - `cusspvz/node:0.10.19`~~
-* ~~0.10.18 - `cusspvz/node:0.10.18`~~
-* ~~0.10.17 - `cusspvz/node:0.10.17`~~
-* ~~0.10.16 - `cusspvz/node:0.10.16`~~
-* ~~0.10.15 - `cusspvz/node:0.10.15`~~
-* ~~0.10.14 - `cusspvz/node:0.10.14`~~
-* ~~0.10.13 - `cusspvz/node:0.10.13`~~
-* ~~0.10.12 - `cusspvz/node:0.10.12`~~
-* ~~0.10.11 - `cusspvz/node:0.10.11`~~
-* ~~0.10.10 - `cusspvz/node:0.10.10`~~
-* ~~0.10.9 - `cusspvz/node:0.10.9`~~
-* ~~0.10.8 - `cusspvz/node:0.10.8`~~
-* ~~0.10.7 - `cusspvz/node:0.10.7`~~
-* ~~0.10.6 - `cusspvz/node:0.10.6`~~
-* ~~0.10.5 - `cusspvz/node:0.10.5`~~
-* ~~0.10.4 - `cusspvz/node:0.10.4`~~
-* ~~0.10.3 - `cusspvz/node:0.10.3`~~
-* ~~0.10.2 - `cusspvz/node:0.10.2`~~
-* ~~0.10.1 - `cusspvz/node:0.10.1`~~
-* ~~0.10.0 - `cusspvz/node:0.10.0`~~
-* ~~0.9.12 - `cusspvz/node:0.9.12`~~
-* ~~0.9.11 - `cusspvz/node:0.9.11`~~
-* ~~0.9.10 - `cusspvz/node:0.9.10`~~
-* ~~0.9.9 - `cusspvz/node:0.9.9`~~
-* ~~0.9.8 - `cusspvz/node:0.9.8`~~
-* ~~0.9.7 - `cusspvz/node:0.9.7`~~
-* ~~0.9.6 - `cusspvz/node:0.9.6`~~
-* ~~0.9.5 - `cusspvz/node:0.9.5`~~
-* ~~0.9.4 - `cusspvz/node:0.9.4`~~
-* ~~0.9.3 - `cusspvz/node:0.9.3`~~
-* ~~0.9.2 - `cusspvz/node:0.9.2`~~
-* ~~0.9.1 - `cusspvz/node:0.9.1`~~
-* ~~0.9.0 - `cusspvz/node:0.9.0`~~
-* ~~0.8.28 - `cusspvz/node:0.8.28`~~
-* ~~0.8.27 - `cusspvz/node:0.8.27`~~
-* ~~0.8.26 - `cusspvz/node:0.8.26`~~
-* ~~0.8.25 - `cusspvz/node:0.8.25`~~
-* ~~0.8.24 - `cusspvz/node:0.8.24`~~
-* ~~0.8.23 - `cusspvz/node:0.8.23`~~
-* ~~0.8.22 - `cusspvz/node:0.8.22`~~
-* ~~0.8.21 - `cusspvz/node:0.8.21`~~
-* ~~0.8.20 - `cusspvz/node:0.8.20`~~
-* ~~0.8.19 - `cusspvz/node:0.8.19`~~
-* ~~0.8.18 - `cusspvz/node:0.8.18`~~
-* ~~0.8.17 - `cusspvz/node:0.8.17`~~
-* ~~0.8.16 - `cusspvz/node:0.8.16`~~
-* ~~0.8.15 - `cusspvz/node:0.8.15`~~
-* ~~0.8.14 - `cusspvz/node:0.8.14`~~
-* ~~0.8.13 - `cusspvz/node:0.8.13`~~
-* ~~0.8.12 - `cusspvz/node:0.8.12`~~
-* ~~0.8.11 - `cusspvz/node:0.8.11`~~
-* ~~0.8.10 - `cusspvz/node:0.8.10`~~
-* ~~0.8.9 - `cusspvz/node:0.8.9`~~
-* ~~0.8.8 - `cusspvz/node:0.8.8`~~
-* ~~0.8.7 - `cusspvz/node:0.8.7`~~
-* ~~0.8.6 - `cusspvz/node:0.8.6`~~
-* ~~0.8.5 - `cusspvz/node:0.8.5`~~
-* ~~0.8.4 - `cusspvz/node:0.8.4`~~
-* ~~0.8.3 - `cusspvz/node:0.8.3`~~
-* ~~0.8.2 - `cusspvz/node:0.8.2`~~
-* ~~0.8.1 - `cusspvz/node:0.8.1`~~
-* ~~0.8.0 - `cusspvz/node:0.8.0`~~
-* ~~0.7.0 - `cusspvz/node:0.7.0`~~
-* ~~0.7.1 - `cusspvz/node:0.7.1`~~
-* ~~0.7.10 - `cusspvz/node:0.7.10`~~
-* ~~0.7.11 - `cusspvz/node:0.7.11`~~
-* ~~0.7.12 - `cusspvz/node:0.7.12`~~
-* ~~0.7.2 - `cusspvz/node:0.7.2`~~
-* ~~0.7.3 - `cusspvz/node:0.7.3`~~
-* ~~0.7.4 - `cusspvz/node:0.7.4`~~
-* ~~0.7.5 - `cusspvz/node:0.7.5`~~
-* ~~0.7.6 - `cusspvz/node:0.7.6`~~
-* ~~0.7.7 - `cusspvz/node:0.7.7`~~
-* ~~0.7.8 - `cusspvz/node:0.7.8`~~
-* ~~0.7.9 - `cusspvz/node:0.7.9`~~
-* ~~0.6.21 - `cusspvz/node:0.6.21`~~
-* ~~0.6.20 - `cusspvz/node:0.6.20`~~
-* ~~0.6.19 - `cusspvz/node:0.6.19`~~
-* ~~0.6.18 - `cusspvz/node:0.6.18`~~
-* ~~0.6.17 - `cusspvz/node:0.6.17`~~
-* ~~0.6.16 - `cusspvz/node:0.6.16`~~
-* ~~0.6.15 - `cusspvz/node:0.6.15`~~
-* ~~0.6.14 - `cusspvz/node:0.6.14`~~
-* ~~0.6.13 - `cusspvz/node:0.6.13`~~
-* ~~0.6.12 - `cusspvz/node:0.6.12`~~
-* ~~0.6.11 - `cusspvz/node:0.6.11`~~
-* ~~0.6.10 - `cusspvz/node:0.6.10`~~
-* ~~0.6.9 - `cusspvz/node:0.6.9`~~
-* ~~0.6.8 - `cusspvz/node:0.6.8`~~
-* ~~0.6.7 - `cusspvz/node:0.6.7`~~
-* ~~0.6.6 - `cusspvz/node:0.6.6`~~
-* ~~0.6.5 - `cusspvz/node:0.6.5`~~
-* ~~0.6.4 - `cusspvz/node:0.6.4`~~
-* ~~0.6.3 - `cusspvz/node:0.6.3`~~
-* ~~0.6.2 - `cusspvz/node:0.6.2`~~
-* ~~0.6.1 - `cusspvz/node:0.6.1`~~
-* ~~0.6.0 - `cusspvz/node:0.6.0`~~
-* ~~0.5.10 - `cusspvz/node:0.5.10`~~
-* ~~0.5.9 - `cusspvz/node:0.5.9`~~
-* ~~0.5.8 - `cusspvz/node:0.5.8`~~
-* ~~0.5.7 - `cusspvz/node:0.5.7`~~
-* ~~0.5.6 - `cusspvz/node:0.5.6`~~
-* ~~0.5.5 - `cusspvz/node:0.5.5`~~
-* ~~0.5.4 - `cusspvz/node:0.5.4`~~
-* ~~0.5.3 - `cusspvz/node:0.5.3`~~
-* ~~0.5.2 - `cusspvz/node:0.5.2`~~
-* ~~0.5.1 - `cusspvz/node:0.5.1`~~
+* :white_check_mark: 4.1.0 - `cusspvz/node:4.1.0` `cusspvz/node:4.1.0-onbuild`
+* :white_check_mark: 4.1.1 - `cusspvz/node:4.1.1` `cusspvz/node:4.1.1-onbuild`
+* :white_check_mark: 4.0.0 - `cusspvz/node:4.0.0` `cusspvz/node:4.0.0-onbuild`
+* :white_check_mark: 0.12.7 - `cusspvz/node:0.12.7` `cusspvz/node:0.12.7-onbuild`
+* :white_check_mark: 0.12.6 - `cusspvz/node:0.12.6` `cusspvz/node:0.12.6-onbuild`
+* :white_check_mark: 0.12.5 - `cusspvz/node:0.12.5` `cusspvz/node:0.12.5-onbuild`
+* :white_check_mark: 0.12.4 - `cusspvz/node:0.12.4` `cusspvz/node:0.12.4-onbuild`
+* :white_check_mark: 0.12.3 - `cusspvz/node:0.12.3` `cusspvz/node:0.12.3-onbuild`
+* :white_check_mark: 0.12.2 - `cusspvz/node:0.12.2` `cusspvz/node:0.12.2-onbuild`
+* :white_check_mark: 0.12.1 - `cusspvz/node:0.12.1` `cusspvz/node:0.12.1-onbuild`
+* ~~0.12.0 - `cusspvz/node:0.12.0` `cusspvz/node:0.12.0-onbuild`~~
+* ~~0.11.16 - `cusspvz/node:0.11.16` `cusspvz/node:0.11.16-onbuild`~~
+* ~~0.11.15 - `cusspvz/node:0.11.15` `cusspvz/node:0.11.15-onbuild`~~
+* ~~0.11.14 - `cusspvz/node:0.11.14` `cusspvz/node:0.11.14-onbuild`~~
+* ~~0.11.13 - `cusspvz/node:0.11.13` `cusspvz/node:0.11.13-onbuild`~~
+* ~~0.11.12 - `cusspvz/node:0.11.12` `cusspvz/node:0.11.12-onbuild`~~
+* ~~0.11.11 - `cusspvz/node:0.11.11` `cusspvz/node:0.11.11-onbuild`~~
+* ~~0.11.10 - `cusspvz/node:0.11.10` `cusspvz/node:0.11.10-onbuild`~~
+* ~~0.11.9 - `cusspvz/node:0.11.9` `cusspvz/node:0.11.9-onbuild`~~
+* ~~0.11.8 - `cusspvz/node:0.11.8` `cusspvz/node:0.11.8-onbuild`~~
+* ~~0.11.7 - `cusspvz/node:0.11.7` `cusspvz/node:0.11.7-onbuild`~~
+* ~~0.11.6 - `cusspvz/node:0.11.6` `cusspvz/node:0.11.6-onbuild`~~
+* ~~0.11.5 - `cusspvz/node:0.11.5` `cusspvz/node:0.11.5-onbuild`~~
+* ~~0.11.4 - `cusspvz/node:0.11.4` `cusspvz/node:0.11.4-onbuild`~~
+* ~~0.11.3 - `cusspvz/node:0.11.3` `cusspvz/node:0.11.3-onbuild`~~
+* ~~0.11.2 - `cusspvz/node:0.11.2` `cusspvz/node:0.11.2-onbuild`~~
+* ~~0.11.1 - `cusspvz/node:0.11.1` `cusspvz/node:0.11.1-onbuild`~~
+* ~~0.11.0 - `cusspvz/node:0.11.0` `cusspvz/node:0.11.0-onbuild`~~
+* ~~0.10.40 - `cusspvz/node:0.10.40` `cusspvz/node:0.10.40-onbuild`~~
+* ~~0.10.39 - `cusspvz/node:0.10.39` `cusspvz/node:0.10.39-onbuild`~~
+* ~~0.10.38 - `cusspvz/node:0.10.38` `cusspvz/node:0.10.38-onbuild`~~
+* ~~0.10.37 - `cusspvz/node:0.10.37` `cusspvz/node:0.10.37-onbuild`~~
+* ~~0.10.36 - `cusspvz/node:0.10.36` `cusspvz/node:0.10.36-onbuild`~~
+* ~~0.10.35 - `cusspvz/node:0.10.35` `cusspvz/node:0.10.35-onbuild`~~
+* ~~0.10.34 - `cusspvz/node:0.10.34` `cusspvz/node:0.10.34-onbuild`~~
+* ~~0.10.33 - `cusspvz/node:0.10.33` `cusspvz/node:0.10.33-onbuild`~~
+* ~~0.10.32 - `cusspvz/node:0.10.32` `cusspvz/node:0.10.32-onbuild`~~
+* ~~0.10.31 - `cusspvz/node:0.10.31` `cusspvz/node:0.10.31-onbuild`~~
+* ~~0.10.30 - `cusspvz/node:0.10.30` `cusspvz/node:0.10.30-onbuild`~~
+* ~~0.10.29 - `cusspvz/node:0.10.29` `cusspvz/node:0.10.29-onbuild`~~
+* ~~0.10.28 - `cusspvz/node:0.10.28` `cusspvz/node:0.10.28-onbuild`~~
+* ~~0.10.27 - `cusspvz/node:0.10.27` `cusspvz/node:0.10.27-onbuild`~~
+* ~~0.10.26 - `cusspvz/node:0.10.26` `cusspvz/node:0.10.26-onbuild`~~
+* ~~0.10.25 - `cusspvz/node:0.10.25` `cusspvz/node:0.10.25-onbuild`~~
+* ~~0.10.24 - `cusspvz/node:0.10.24` `cusspvz/node:0.10.24-onbuild`~~
+* ~~0.10.23 - `cusspvz/node:0.10.23` `cusspvz/node:0.10.23-onbuild`~~
+* ~~0.10.22 - `cusspvz/node:0.10.22` `cusspvz/node:0.10.22-onbuild`~~
+* ~~0.10.21 - `cusspvz/node:0.10.21` `cusspvz/node:0.10.21-onbuild`~~
+* ~~0.10.20 - `cusspvz/node:0.10.20` `cusspvz/node:0.10.20-onbuild`~~
+* ~~0.10.19 - `cusspvz/node:0.10.19` `cusspvz/node:0.10.19-onbuild`~~
+* ~~0.10.18 - `cusspvz/node:0.10.18` `cusspvz/node:0.10.18-onbuild`~~
+* ~~0.10.17 - `cusspvz/node:0.10.17` `cusspvz/node:0.10.17-onbuild`~~
+* ~~0.10.16 - `cusspvz/node:0.10.16` `cusspvz/node:0.10.16-onbuild`~~
+* ~~0.10.15 - `cusspvz/node:0.10.15` `cusspvz/node:0.10.15-onbuild`~~
+* ~~0.10.14 - `cusspvz/node:0.10.14` `cusspvz/node:0.10.14-onbuild`~~
+* ~~0.10.13 - `cusspvz/node:0.10.13` `cusspvz/node:0.10.13-onbuild`~~
+* ~~0.10.12 - `cusspvz/node:0.10.12` `cusspvz/node:0.10.12-onbuild`~~
+* ~~0.10.11 - `cusspvz/node:0.10.11` `cusspvz/node:0.10.11-onbuild`~~
+* ~~0.10.10 - `cusspvz/node:0.10.10` `cusspvz/node:0.10.10-onbuild`~~
+* ~~0.10.9 - `cusspvz/node:0.10.9` `cusspvz/node:0.10.9-onbuild`~~
+* ~~0.10.8 - `cusspvz/node:0.10.8` `cusspvz/node:0.10.8-onbuild`~~
+* ~~0.10.7 - `cusspvz/node:0.10.7` `cusspvz/node:0.10.7-onbuild`~~
+* ~~0.10.6 - `cusspvz/node:0.10.6` `cusspvz/node:0.10.6-onbuild`~~
+* ~~0.10.5 - `cusspvz/node:0.10.5` `cusspvz/node:0.10.5-onbuild`~~
+* ~~0.10.4 - `cusspvz/node:0.10.4` `cusspvz/node:0.10.4-onbuild`~~
+* ~~0.10.3 - `cusspvz/node:0.10.3` `cusspvz/node:0.10.3-onbuild`~~
+* ~~0.10.2 - `cusspvz/node:0.10.2` `cusspvz/node:0.10.2-onbuild`~~
+* ~~0.10.1 - `cusspvz/node:0.10.1` `cusspvz/node:0.10.1-onbuild`~~
+* ~~0.10.0 - `cusspvz/node:0.10.0` `cusspvz/node:0.10.0-onbuild`~~
+* ~~0.9.12 - `cusspvz/node:0.9.12` `cusspvz/node:0.9.12-onbuild`~~
+* ~~0.9.11 - `cusspvz/node:0.9.11` `cusspvz/node:0.9.11-onbuild`~~
+* ~~0.9.10 - `cusspvz/node:0.9.10` `cusspvz/node:0.9.10-onbuild`~~
+* ~~0.9.9 - `cusspvz/node:0.9.9` `cusspvz/node:0.9.9-onbuild`~~
+* ~~0.9.8 - `cusspvz/node:0.9.8` `cusspvz/node:0.9.8-onbuild`~~
+* ~~0.9.7 - `cusspvz/node:0.9.7` `cusspvz/node:0.9.7-onbuild`~~
+* ~~0.9.6 - `cusspvz/node:0.9.6` `cusspvz/node:0.9.6-onbuild`~~
+* ~~0.9.5 - `cusspvz/node:0.9.5` `cusspvz/node:0.9.5-onbuild`~~
+* ~~0.9.4 - `cusspvz/node:0.9.4` `cusspvz/node:0.9.4-onbuild`~~
+* ~~0.9.3 - `cusspvz/node:0.9.3` `cusspvz/node:0.9.3-onbuild`~~
+* ~~0.9.2 - `cusspvz/node:0.9.2` `cusspvz/node:0.9.2-onbuild`~~
+* ~~0.9.1 - `cusspvz/node:0.9.1` `cusspvz/node:0.9.1-onbuild`~~
+* ~~0.9.0 - `cusspvz/node:0.9.0` `cusspvz/node:0.9.0-onbuild`~~
+* ~~0.8.28 - `cusspvz/node:0.8.28` `cusspvz/node:0.8.28-onbuild`~~
+* ~~0.8.27 - `cusspvz/node:0.8.27` `cusspvz/node:0.8.27-onbuild`~~
+* ~~0.8.26 - `cusspvz/node:0.8.26` `cusspvz/node:0.8.26-onbuild`~~
+* ~~0.8.25 - `cusspvz/node:0.8.25` `cusspvz/node:0.8.25-onbuild`~~
+* ~~0.8.24 - `cusspvz/node:0.8.24` `cusspvz/node:0.8.24-onbuild`~~
+* ~~0.8.23 - `cusspvz/node:0.8.23` `cusspvz/node:0.8.23-onbuild`~~
+* ~~0.8.22 - `cusspvz/node:0.8.22` `cusspvz/node:0.8.22-onbuild`~~
+* ~~0.8.21 - `cusspvz/node:0.8.21` `cusspvz/node:0.8.21-onbuild`~~
+* ~~0.8.20 - `cusspvz/node:0.8.20` `cusspvz/node:0.8.20-onbuild`~~
+* ~~0.8.19 - `cusspvz/node:0.8.19` `cusspvz/node:0.8.19-onbuild`~~
+* ~~0.8.18 - `cusspvz/node:0.8.18` `cusspvz/node:0.8.18-onbuild`~~
+* ~~0.8.17 - `cusspvz/node:0.8.17` `cusspvz/node:0.8.17-onbuild`~~
+* ~~0.8.16 - `cusspvz/node:0.8.16` `cusspvz/node:0.8.16-onbuild`~~
+* ~~0.8.15 - `cusspvz/node:0.8.15` `cusspvz/node:0.8.15-onbuild`~~
+* ~~0.8.14 - `cusspvz/node:0.8.14` `cusspvz/node:0.8.14-onbuild`~~
+* ~~0.8.13 - `cusspvz/node:0.8.13` `cusspvz/node:0.8.13-onbuild`~~
+* ~~0.8.12 - `cusspvz/node:0.8.12` `cusspvz/node:0.8.12-onbuild`~~
+* ~~0.8.11 - `cusspvz/node:0.8.11` `cusspvz/node:0.8.11-onbuild`~~
+* ~~0.8.10 - `cusspvz/node:0.8.10` `cusspvz/node:0.8.10-onbuild`~~
+* ~~0.8.9 - `cusspvz/node:0.8.9` `cusspvz/node:0.8.9-onbuild`~~
+* ~~0.8.8 - `cusspvz/node:0.8.8` `cusspvz/node:0.8.8-onbuild`~~
+* ~~0.8.7 - `cusspvz/node:0.8.7` `cusspvz/node:0.8.7-onbuild`~~
+* ~~0.8.6 - `cusspvz/node:0.8.6` `cusspvz/node:0.8.6-onbuild`~~
+* ~~0.8.5 - `cusspvz/node:0.8.5` `cusspvz/node:0.8.5-onbuild`~~
+* ~~0.8.4 - `cusspvz/node:0.8.4` `cusspvz/node:0.8.4-onbuild`~~
+* ~~0.8.3 - `cusspvz/node:0.8.3` `cusspvz/node:0.8.3-onbuild`~~
+* ~~0.8.2 - `cusspvz/node:0.8.2` `cusspvz/node:0.8.2-onbuild`~~
+* ~~0.8.1 - `cusspvz/node:0.8.1` `cusspvz/node:0.8.1-onbuild`~~
+* ~~0.8.0 - `cusspvz/node:0.8.0` `cusspvz/node:0.8.0-onbuild`~~
+* ~~0.7.0 - `cusspvz/node:0.7.0` `cusspvz/node:0.7.0-onbuild`~~
+* ~~0.7.1 - `cusspvz/node:0.7.1` `cusspvz/node:0.7.1-onbuild`~~
+* ~~0.7.10 - `cusspvz/node:0.7.10` `cusspvz/node:0.7.10-onbuild`~~
+* ~~0.7.11 - `cusspvz/node:0.7.11` `cusspvz/node:0.7.11-onbuild`~~
+* ~~0.7.12 - `cusspvz/node:0.7.12` `cusspvz/node:0.7.12-onbuild`~~
+* ~~0.7.2 - `cusspvz/node:0.7.2` `cusspvz/node:0.7.2-onbuild`~~
+* ~~0.7.3 - `cusspvz/node:0.7.3` `cusspvz/node:0.7.3-onbuild`~~
+* ~~0.7.4 - `cusspvz/node:0.7.4` `cusspvz/node:0.7.4-onbuild`~~
+* ~~0.7.5 - `cusspvz/node:0.7.5` `cusspvz/node:0.7.5-onbuild`~~
+* ~~0.7.6 - `cusspvz/node:0.7.6` `cusspvz/node:0.7.6-onbuild`~~
+* ~~0.7.7 - `cusspvz/node:0.7.7` `cusspvz/node:0.7.7-onbuild`~~
+* ~~0.7.8 - `cusspvz/node:0.7.8` `cusspvz/node:0.7.8-onbuild`~~
+* ~~0.7.9 - `cusspvz/node:0.7.9` `cusspvz/node:0.7.9-onbuild`~~
+* ~~0.6.21 - `cusspvz/node:0.6.21` `cusspvz/node:0.6.21-onbuild`~~
+* ~~0.6.20 - `cusspvz/node:0.6.20` `cusspvz/node:0.6.20-onbuild`~~
+* ~~0.6.19 - `cusspvz/node:0.6.19` `cusspvz/node:0.6.19-onbuild`~~
+* ~~0.6.18 - `cusspvz/node:0.6.18` `cusspvz/node:0.6.18-onbuild`~~
+* ~~0.6.17 - `cusspvz/node:0.6.17` `cusspvz/node:0.6.17-onbuild`~~
+* ~~0.6.16 - `cusspvz/node:0.6.16` `cusspvz/node:0.6.16-onbuild`~~
+* ~~0.6.15 - `cusspvz/node:0.6.15` `cusspvz/node:0.6.15-onbuild`~~
+* ~~0.6.14 - `cusspvz/node:0.6.14` `cusspvz/node:0.6.14-onbuild`~~
+* ~~0.6.13 - `cusspvz/node:0.6.13` `cusspvz/node:0.6.13-onbuild`~~
+* ~~0.6.12 - `cusspvz/node:0.6.12` `cusspvz/node:0.6.12-onbuild`~~
+* ~~0.6.11 - `cusspvz/node:0.6.11` `cusspvz/node:0.6.11-onbuild`~~
+* ~~0.6.10 - `cusspvz/node:0.6.10` `cusspvz/node:0.6.10-onbuild`~~
+* ~~0.6.9 - `cusspvz/node:0.6.9` `cusspvz/node:0.6.9-onbuild`~~
+* ~~0.6.8 - `cusspvz/node:0.6.8` `cusspvz/node:0.6.8-onbuild`~~
+* ~~0.6.7 - `cusspvz/node:0.6.7` `cusspvz/node:0.6.7-onbuild`~~
+* ~~0.6.6 - `cusspvz/node:0.6.6` `cusspvz/node:0.6.6-onbuild`~~
+* ~~0.6.5 - `cusspvz/node:0.6.5` `cusspvz/node:0.6.5-onbuild`~~
+* ~~0.6.4 - `cusspvz/node:0.6.4` `cusspvz/node:0.6.4-onbuild`~~
+* ~~0.6.3 - `cusspvz/node:0.6.3` `cusspvz/node:0.6.3-onbuild`~~
+* ~~0.6.2 - `cusspvz/node:0.6.2` `cusspvz/node:0.6.2-onbuild`~~
+* ~~0.6.1 - `cusspvz/node:0.6.1` `cusspvz/node:0.6.1-onbuild`~~
+* ~~0.6.0 - `cusspvz/node:0.6.0` `cusspvz/node:0.6.0-onbuild`~~
+* ~~0.5.10 - `cusspvz/node:0.5.10` `cusspvz/node:0.5.10-onbuild`~~
+* ~~0.5.9 - `cusspvz/node:0.5.9` `cusspvz/node:0.5.9-onbuild`~~
+* ~~0.5.8 - `cusspvz/node:0.5.8` `cusspvz/node:0.5.8-onbuild`~~
+* ~~0.5.7 - `cusspvz/node:0.5.7` `cusspvz/node:0.5.7-onbuild`~~
+* ~~0.5.6 - `cusspvz/node:0.5.6` `cusspvz/node:0.5.6-onbuild`~~
+* ~~0.5.5 - `cusspvz/node:0.5.5` `cusspvz/node:0.5.5-onbuild`~~
+* ~~0.5.4 - `cusspvz/node:0.5.4` `cusspvz/node:0.5.4-onbuild`~~
+* ~~0.5.3 - `cusspvz/node:0.5.3` `cusspvz/node:0.5.3-onbuild`~~
+* ~~0.5.2 - `cusspvz/node:0.5.2` `cusspvz/node:0.5.2-onbuild`~~
+* ~~0.5.1 - `cusspvz/node:0.5.1` `cusspvz/node:0.5.1-onbuild`~~
 
 ## Developing
 

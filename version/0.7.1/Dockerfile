@@ -37,10 +37,3 @@ ADD https://raw.githubusercontent.com/cusspvz/node.docker/master/entrypoint /bin
 RUN chmod +x /bin/entrypoint
 ENTRYPOINT [ "/bin/entrypoint" ]
 CMD [ "" ]
-
-# For sugar automated builds
-ONBUILD ENV NODE_ENV=production
-ONBUILD ADD . /app
-ONBUILD RUN npm install --production
-ONBUILD RUN npm run build
-ONBUILD CMD [ "start" ]

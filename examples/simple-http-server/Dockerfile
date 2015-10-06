@@ -1,1 +1,1 @@
-FROM cusspvz/node:0.12.7
+FROM cusspvz/node:0.12.7-onbuild

@@ -9,6 +9,7 @@ else
 endif
 
 VERSION_PATH := version/${TAG}/
+VERSION_ONBUILD_PATH := version/${TAG}-onbuild/
 
 run: build
 	@docker run --rm -ti cusspvz/node:${TAG}
@@ -24,9 +25,11 @@ fetch-versions:
 		> versions
 
 gen-version:
-	@echo "Updating ${VERSION_PATH}"
-	@mkdir -p ${VERSION_PATH}
-	@cat Dockerfile | sed -e "s/NODE_VERSION=latest/NODE_VERSION=${VERSION}/" > ${VERSION_PATH}/Dockerfile
+	@echo "Generating version dockerfiles: ${VERSION_PATH} ${VERSION_ONBUILD_PATH}"
+	@mkdir -p ${VERSION_PATH} ${VERSION_ONBUILD_PATH}
+	@cat Dockerfile | sed -e "s/NODE_VERSION=latest/NODE_VERSION=${VERSION}/" >${VERSION_PATH}/Dockerfile
+	@cat Dockerfile | sed -e "s/NODE_VERSION=latest/NODE_VERSION=${VERSION}/" >${VERSION_ONBUILD_PATH}/Dockerfile
+	@cat Dockerfile.onbuild >> ${VERSION_ONBUILD_PATH}/Dockerfile;
 
 build: gen-version
 	@echo "Building ${TAG}"
