@@ -122,8 +122,9 @@ versions are working, as so, this list will be kept to be updated.
 
 Others aren't built, or are presenting errors.
 
-* :white_check_mark: 4.1.0 - `cusspvz/node:4.1.0` `cusspvz/node:4.1.0-onbuild`
+* :white_check_mark: 4.1.2 - `cusspvz/node:4.1.2` `cusspvz/node:4.1.2-onbuild`
 * :white_check_mark: 4.1.1 - `cusspvz/node:4.1.1` `cusspvz/node:4.1.1-onbuild`
+* :white_check_mark: 4.1.0 - `cusspvz/node:4.1.0` `cusspvz/node:4.1.0-onbuild`
 * :white_check_mark: 4.0.0 - `cusspvz/node:4.0.0` `cusspvz/node:4.0.0-onbuild`
 * :white_check_mark: 0.12.7 - `cusspvz/node:0.12.7` `cusspvz/node:0.12.7-onbuild`
 * :white_check_mark: 0.12.6 - `cusspvz/node:0.12.6` `cusspvz/node:0.12.6-onbuild`
