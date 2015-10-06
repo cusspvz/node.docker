@@ -4,9 +4,13 @@ MAINTAINER José Moreira <jose.moreira@findhit.com>
 RUN apk add --update wget bash tar git libgcc libstdc++;
 ENV NODE_PREFIX=/usr/local \
     NODE_VERSION=0.10.8
-RUN export NODE_SOURCE="/usr/src/node"; \
-    export DOWNLOAD_PATH="https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}.tar.gz"; \
-    export APK_NEEDS="make gcc g++ python linux-headers paxctl"; \
+RUN NODE_SOURCE="/usr/src/node"; \
+    [ "${NODE_VERSION}" == "latest" ] && { \
+        DOWNLOAD_PATH=https://nodejs.org/dist/node-latest.tar.gz; \
+    } || { \
+        DOWNLOAD_PATH=https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}.tar.gz; \
+    }; \
+    APK_NEEDS="make gcc g++ python linux-headers paxctl"; \
     apk add --update $APK_NEEDS && \
     mkdir -p $NODE_SOURCE && \
     wget -O - $DOWNLOAD_PATH -nv | tar -xz --strip-components=1 -C $NODE_SOURCE && \

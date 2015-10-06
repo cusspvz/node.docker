@@ -57,18 +57,32 @@ push-all: fetch-versions
 		make VERSION=$$VERSION push; \
 	done;
 
+gen-build-json:
+	@echo "{\"isNew\":true,\"name\":\"${VERSION}\",\"dockerfile_location\":\"/version/$${VERSION}\",\"source_name\":\"master\",\"source_type\":\"Branch\"}";
+
+gen-build-onbuild-json:
+	@echo "{\"isNew\":true,\"name\":\"${VERSION}-onbuild\",\"dockerfile_location\":\"/version/$${VERSION}-onbuild\",\"source_name\":\"master\",\"source_type\":\"Branch\"}";
+
 gen-autosuildstore-build-tags-json-all:
 	# Search for RepoPushTrigger component and inject this build_tags
 	# Sorry DockerHub folks for not maintain any ids... :)
 	@OUTPUT=""; \
 	OUTPUT+="\$$r.props.newTags = ["; \
-	for VERSION in $(shell cat versions); do \
-		OUTPUT+="{\"isNew\":true,\"name\":\"$${VERSION}\",\"dockerfile_location\":\"/version/$${VERSION}\",\"source_name\":\"master\",\"source_type\":\"Branch\"},"; \
-		OUTPUT+="{\"isNew\":true,\"name\":\"$${VERSION}-onbuild\",\"dockerfile_location\":\"/version/$${VERSION}-onbuild\",\"source_name\":\"master\",\"source_type\":\"Branch\"},"; \
+	for VERSION in $(shell cat checked_versions); do \
+		OUTPUT+="$$(make VERSION=$$VERSION gen-build-json),"; \
+		OUTPUT+="$$(make VERSION=$$VERSION gen-build-onbuild-json),"; \
 	done; \
 	OUTPUT+="];"; \
 	OUTPUT+="\$$r.forceUpdate();"; \
 	echo "$$OUTPUT";
+
+docker-hub-build:
+	@echo "Triggering build for version ${VERSION}";
+	@curl -H "Content-Type: application/json" --data "$$(make VERSION=${VERSION} gen-build-json)" -X POST https://registry.hub.docker.com/u/cusspvz/node/trigger/${DOCKER_HUB_BUILD_TOKEN}/;
+
+docker-hub-onbuild-build:
+	@echo "Triggering build for version ${VERSION}";
+	@curl -H "Content-Type: application/json" --data "$$(make VERSION=${VERSION} gen-build-onbuild-json)" -X POST https://registry.hub.docker.com/u/cusspvz/node/trigger/${DOCKER_HUB_BUILD_TOKEN}/;
 
 show-all-docker-images:
 	@docker images | grep "^cusspvz/node";
@@ -77,17 +91,15 @@ clean-all-docker-images:
 	docker rmi -f \
 		`docker images | grep "^cusspvz/node" | while read repo version image nonimportant; do echo $$image; done;`
 
-trigger-all-docker-hub-build:
-	@for VERSION in $(shell cat versions); do \
-		echo "Triggering build for version $$VERSION"; \
-		curl -H "Content-Type: application/json" --data '{"docker_tag": "$$VERSION"}' -X POST https://registry.hub.docker.com/u/cusspvz/node/trigger/${DOCKER_HUB_BUILD_TOKEN}/; \
+trigger-checked-docker-hub-build:
+	@for VERSION in $(shell cat checked_versions); do \
+		make VERSION=$$VERSION docker-hub-build; \
 		sleep 20; \
-		echo '--'; echo; \
+		echo; \
 	done;
 	@echo "Sleeping for 120 secs, so we can trigger -onbuild builds"; sleep 120;
-	@for VERSION in $(shell cat versions); do \
-		echo "Triggering build for version $${VERSION}-onbuild"; \
-		curl -H "Content-Type: application/json" --data '{"docker_tag": "$${VERSION}-onbuild"}' -X POST https://registry.hub.docker.com/u/cusspvz/node/trigger/${DOCKER_HUB_BUILD_TOKEN}/; \
+	@for VERSION in $(shell cat checked_versions); do \
+		make VERSION=$$VERSION docker-hub-onbuild-build; \
 		sleep 20; \
-		echo '--'; echo; \
+		echo; \
 	done;
