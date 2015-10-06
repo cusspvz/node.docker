@@ -1,0 +1,30 @@
+{
+  "name": "node.docker",
+  "version": "1.0.0",
+  "description": "Super small Node.js container (~20MB) based on Alpine Linux OS",
+  "bin": {
+    "node.docker": "launcher"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cusspvz/node.docker.git"
+  },
+  "keywords": [
+    "docker",
+    "node",
+    "containerized",
+    "container",
+    "image",
+    "alpine",
+    "linux"
+  ],
+  "author": "José Moreira <jose.moreira@findhit.com>",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/cusspvz/node.docker/issues"
+  },
+  "homepage": "https://github.com/cusspvz/node.docker"
+}

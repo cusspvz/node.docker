@@ -1,0 +1,65 @@
+#!/bin/bash
+# Maintainer: José Moreira <jose.moreira@findhit.com>
+
+VERSION=$1
+PWD=$PWD
+
+throw () {
+    echo ${@:2}
+    exit $1
+}
+
+[ -z "$(which docker)" ] && {
+    throw 1 "Please make sure you have docker installed"
+}
+
+## Actions
+
+build () {
+    NODE_VERSION=$1
+    IMAGE_NAME=$2
+
+    [ -z "$NODE_VERSION" ] && {
+        throw 2 "Please provide a version"
+    }
+
+    [ -z "$IMAGE_NAME" ] && {
+        throw 3 "Please provide a image name for the build"
+    }
+
+    # Create a dockerfile in case there is none
+    [ ! -f "$PWD/Dockerfile" ] && {
+        echo "FROM cusspvz/node:${NODE_VERSION}-onbuild" > "$PWD/Dockerfile"
+    }
+
+    exec docker build \
+        -t $IMAGE_NAME \
+        $PWD
+}
+[ "$1" == "build" ] && {
+    exec build "$2" "$3"
+}
+
+run () {
+    NODE_VERSION=$1
+    IMAGE_NAME=$2
+
+    build "$1" "$2"
+    exec docker run -ti --rm $IMAGE_NAME
+}
+[ "$1" == "run" ] && {
+    exec run "$2" "$3"
+}
+
+
+NODE_VERSION=$1
+
+[ -z "$NODE_VERSION" ] && {
+    throw 2 "Please provide a version"
+}
+
+exec docker run \
+    --rm -ti \
+    -l $PWD:/app \
+    cusspvz/node:$NODE_VERSION \
+    node ${@:2}

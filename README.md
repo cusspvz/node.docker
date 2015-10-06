@@ -1,78 +1,22 @@
-# cusspvz/node
+# cusspvz/node docker image
 
 🌐Super small Node.js container (~20MB) based on Alpine Linux OS
 
 ## Usage
 
-### Use node right away
+### Use node you want right away
 
-Executing `node`:
-```bash
-# docker run --rm -ti cusspvz/node:0.12.7
-# OR
-# docker run --rm -ti cusspvz/node:0.12.7 node
-> console.log("yOLO")
-yOLO
-undefined
->
-```
-
-Executing `shell`:
-```bash
-# docker run --rm -ti cusspvz/node:0.12.7 shell
-# OR
-# docker run --rm -ti cusspvz/node:0.12.7 bash
-/app#
-```
-
-#### Implementing as a bash alias
-
-Nice to run different node versions on-the-fly
-
-##### Installing
-
-Add the function above
-```bash
-dnode () {
-    VERSION=$1;
-    docker run --rm -ti -l $PWD:/app cusspvz/node:$VERSION;
-}
-```
-
-##### Usage
-
-Will re-use container image if its on cache, otherwise it will pull from DH.
+What if you could develop using containers?
+Here's a brief example of things you could do:
 
 ```bash
-bash-3.2$ dnode 0.12.7
-> 0.12.7 is up and running from dockercache
-(^C again to quit)
->
-bash-3.2$ dnode 4.1.1
-Unable to find image 'cusspvz/node:4.1.1' locally
-4.1.1: Pulling from cusspvz/node
-9caf287e1f2d: Pull complete
-8119db1f2d0a: Pull complete
-61f0af81675f: Pull complete
-e13c97fc9799: Pull complete
-66df5dd9107b: Pull complete
-ade3d319c76d: Pull complete
-72a38303450d: Pull complete
-1604dce4bbd4: Pull complete
-cf277c5850f6: Pull complete
-cc338fe36fd0: Pull complete
-180ccf3d5708: Pull complete
-833c714afd86: Pull complete
-b40cc318d49e: Pull complete
-763343bc22ae: Pull complete
-a002c2202bd2: Already exists
-Digest: sha256:71e6749ed7ed0d78d74973c3f8ec91a9a3716a277e9a608389507263d40bcf21
-Status: Downloaded newer image \for cusspvz/node:4.1.1
-> although 4.1.1 was not, it was pulled right aw
-(^C again to quit)
->
-bash-3.2$
+# Launch `index.js` using node 0.12.7
+node.docker 0.12.7 ./index.js
+
+# Guess what, you don't even need to have node installed.
 ```
+
+[Learn more about Launcher](./LAUNCHER.README.md)
 
 ### Using as your project's base image
 

@@ -9,6 +9,7 @@ on newer Docker Hub.
 * Added `clean` on Makefile to clean development things
 * Set `wget` to be non-verbose, so we don't get huge logs on DH.
 * Added `sh` | `bash` option into entrypoint
+* Added **Launcher**, a new way to run containerized node while developing
 
 ## 4-Out-2015
 

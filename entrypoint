@@ -1,24 +1,23 @@
 #!/bin/bash
-ARGUMENTS=$1
 
-if [ "$ARGUMENTS" == "" ] || \
-   [ "$ARGUMENTS" == "node" ];
+if [ "$1" == "" ] || \
+   [ "$1" == "node" ];
    then
-    exec $NODE_PREFIX/bin/node
+    exec $NODE_PREFIX/bin/node ${@:2}
     exit $?
 fi
 
-if [ "$ARGUMENTS" == "start" ]; then
+if [ "$1" == "start" ]; then
     cd /app
     exec $NODE_PREFIX/bin/npm start
     exit $?
 fi
 
-if [ "$ARGUMENTS" == "shell" ] || \
-   [ "$ARGUMENTS" == "sh" ] || \
-   [ "$ARGUMENTS" == "bash" ] || \
-   [ "$ARGUMENTS" == "/bin/bash" ] || \
-   [ "$ARGUMENTS" == "/bin/sh" ];
+if [ "$1" == "shell" ] || \
+   [ "$1" == "sh" ] || \
+   [ "$1" == "bash" ] || \
+   [ "$1" == "/bin/bash" ] || \
+   [ "$1" == "/bin/sh" ];
    then
     exec /bin/sh -s
     exit $?
