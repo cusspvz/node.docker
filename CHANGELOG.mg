@@ -2,7 +2,8 @@
 
 * Separated `onbuild` sugar feature to a different tagged images [#1](//github.com/cusspvz/node.docker/issues/1)
 * Created this changelog!1 :p
-
+* Added a Javascript generator on Makefile to allow me to inject Build Settings
+on newer Docker Hub.
 
 ## 4-Out-2015
 

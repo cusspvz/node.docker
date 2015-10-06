@@ -28,7 +28,7 @@ gen-version:
 	@echo "Generating version dockerfiles: ${VERSION_PATH} ${VERSION_ONBUILD_PATH}"
 	@mkdir -p ${VERSION_PATH} ${VERSION_ONBUILD_PATH}
 	@cat Dockerfile | sed -e "s/NODE_VERSION=latest/NODE_VERSION=${VERSION}/" >${VERSION_PATH}/Dockerfile
-	@cat Dockerfile | sed -e "s/NODE_VERSION=latest/NODE_VERSION=${VERSION}/" >${VERSION_ONBUILD_PATH}/Dockerfile
+	@echo "FROM cusspvz/node:${VERSION}" >${VERSION_ONBUILD_PATH}/Dockerfile
 	@cat Dockerfile.onbuild >> ${VERSION_ONBUILD_PATH}/Dockerfile;
 
 build: gen-version
@@ -52,3 +52,16 @@ push-all: fetch-versions
 	@for VERSION in $(shell cat versions); do \
 		make VERSION=$$VERSION push; \
 	done;
+
+gen-autosuildstore-build-tags-json-all:
+	# Search for RepoPushTrigger component and inject this build_tags
+	# Sorry DockerHub folks for not maintain any ids... :)
+	@OUTPUT=""; \
+	OUTPUT+="\$$r.props.newTags = ["; \
+	for VERSION in $(shell cat versions); do \
+		OUTPUT+="{\"isNew\":true,\"name\":\"$${VERSION}\",\"dockerfile_location\":\"/version/$${VERSION}\",\"source_name\":\"master\",\"source_type\":\"Branch\"},"; \
+		OUTPUT+="{\"isNew\":true,\"name\":\"$${VERSION}-onbuild\",\"dockerfile_location\":\"/version/$${VERSION}-onbuild\",\"source_name\":\"master\",\"source_type\":\"Branch\"},"; \
+	done; \
+	OUTPUT+="];"; \
+	OUTPUT+="\$$r.forceUpdate();"; \
+	echo "$$OUTPUT";
