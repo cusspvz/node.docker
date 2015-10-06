@@ -9,7 +9,7 @@ RUN export NODE_SOURCE="/usr/src/node"; \
     export APK_NEEDS="make gcc g++ python linux-headers paxctl"; \
     apk add --update $APK_NEEDS && \
     mkdir -p $NODE_SOURCE && \
-    wget -O - $DOWNLOAD_PATH | tar -xz --strip-components=1 -C $NODE_SOURCE && \
+    wget -O - $DOWNLOAD_PATH -nv | tar -xz --strip-components=1 -C $NODE_SOURCE && \
     cd $NODE_SOURCE && \
     ./configure --prefix=$NODE_PREFIX && \
     make -j$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1) && \
