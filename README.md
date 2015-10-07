@@ -2,6 +2,9 @@
 
 🌐Super small Node.js container (~20MB) based on Alpine Linux OS
 
+![docker and node](https://cloud.githubusercontent.com/assets/3604053/10341946/c611ffd4-6d0e-11e5-8b18-e1d92e544c23.jpeg)
+
+
 ## What is this?
 
 This is a repo for those who work with **Node.js** and **Docker**.
