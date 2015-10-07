@@ -23,7 +23,7 @@ As so, there are three things you need to know about this:
 
 ## Usage
 
-### Use node you want right away
+### Use node version you want, right away
 
 What if you could develop using containers?
 Here's a brief example of things you could do:
