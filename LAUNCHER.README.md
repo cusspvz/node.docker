@@ -1,10 +1,9 @@
 # node.docker launcher
 
+A script that changes enhances your development workflow.
+
 ## Installing
 
-Nice to run different node versions on-the-fly
-
-Add the function above to your bash/profile rc:
 ```bash
 # Put node.docker launcher into /usr/sbin :
 wget -O /usr/sbin/node.docker https://raw.githubusercontent.com/cusspvz/node.docker/master/launcher;
