@@ -10,9 +10,9 @@
 This is a repo for those who work with **Node.js** and **Docker**.
 
 The propose of it is to cover all the needs since you start writing your first
-file, to you rolling-update deployment.
+file, to your rolling-update deployment.
 
-As so, there are three things you need to know:
+As so, there are three things you need to know about this:
 * `node.docker` Launcher - is a command-line tool which is a nice candidate to
   replace all your `node` calls, for a containerized one.
 * `cusspvz/node:onbuild` docker image - Docker image with `ONBUILD` statements
@@ -33,6 +33,14 @@ Here's a brief example of things you could do:
 node.docker 0.12.7 ./index.js
 
 # Guess what, you don't even need to have node installed.
+
+# Without even having a Dockerfile, build and push a Docker Image from your app
+cd ~/path/to/my/app
+node.docker push 0.12.7 my-app:latest
+
+# node.docker build node_version image_description
+# node.docker run node_version image_description
+# node.docker push node_version image_description
 ```
 
 [Learn more about Launcher](./LAUNCHER.README.md)
