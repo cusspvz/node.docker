@@ -4,7 +4,7 @@
 
 ## What is this?
 
-This is a repo for those o work with **Node.js** and **Docker**.
+This is a repo for those who work with **Node.js** and **Docker**.
 
 The propose of it is to cover all the needs since you start writing your first
 file, to you rolling-update deployment.
