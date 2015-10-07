@@ -40,6 +40,17 @@ build () {
     exec build "$2" "$3"
 }
 
+push () {
+    NODE_VERSION=$1
+    IMAGE_NAME=$2
+
+    build "$1" "$2"
+    exec docker push $IMAGE_NAME
+}
+[ "$1" == "push" ] && {
+    exec push "$2" "$3"
+}
+
 run () {
     NODE_VERSION=$1
     IMAGE_NAME=$2
