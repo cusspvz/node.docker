@@ -1,3 +1,7 @@
+## 8-Out-2015
+
+* Added packages needed for some native modules
+
 ## 6-Out-2015
 
 * Separated `onbuild` sugar feature to a different tagged images [#1](//github.com/cusspvz/node.docker/issues/1)
