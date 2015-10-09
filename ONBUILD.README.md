@@ -46,7 +46,8 @@ Under the hood, it executes the following commands:
 * `CMD [ "start" ]` - I've put here an `entrypoint` that has the following
   behaviors:
   * ` ` - If nothing is supplied, it will just exec `node`
-  * `start` (Default) - proxies `npm start` so your app could run
+  * `start` (Default) - proxies `npm start` so your app could start
+  * `test` - proxies `npm test` so your app could run tests
   * `shell` - proxies to `/bin/sh`
 
 ## What if i need to install stuff on my container?

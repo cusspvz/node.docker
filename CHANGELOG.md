@@ -1,3 +1,7 @@
+## 9-Out-2015
+
+* Added `test` command which proxies to `npm test` on `/app` folder
+
 ## 8-Out-2015
 
 * Added packages needed for some native modules
