@@ -1,3 +1,7 @@
+## 14-Out-2015
+
+* Added version `4.2.0`
+
 ## 9-Out-2015
 
 * Added `test` command which proxies to `npm test` on `/app` folder
