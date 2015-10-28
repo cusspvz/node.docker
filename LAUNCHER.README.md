@@ -39,7 +39,7 @@ b40cc318d49e: Pull complete
 a002c2202bd2: Already exists
 Digest: sha256:71e6749ed7ed0d78d74973c3f8ec91a9a3716a277e9a608389507263d40bcf21
 Status: Downloaded newer image \for cusspvz/node:4.1.1
-> although 4.1.1 was not, it was pulled right aw
+> although 4.1.1 was not, it was pulled right away
 (^C again to quit)
 >
 bash-3.2$
