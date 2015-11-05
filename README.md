@@ -16,9 +16,9 @@ As so, there are three things you need to know about this:
 * `node.docker` Launcher - is a command-line tool which is a nice candidate to
   replace all your `node` calls, for a containerized one.
 * `cusspvz/node:onbuild` docker image - Docker image with `ONBUILD` statements
-  for helping you to deploy small, enhanced and *npm* standartized projects.
+  for helping you to deploy small, enhanced and *npm* standardized projects.
 * `cusspvz/node:latest` docker image - Docker Image based on Alpine Linux, this
-  is the base that is **empowering** the super-heros above.
+  is the base that is **empowering** the super-heroes above.
 
 
 ## Usage
