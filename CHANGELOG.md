@@ -1,3 +1,8 @@
+## 10-Nov-2015
+
+* Added Docker-in-Docker image so we can test before build, all on the same
+image.
+
 ## 21-Out-2015
 
 * Upgrade *Alpine* packages before `npm install` command
