@@ -6,11 +6,6 @@ FROM cusspvz/node:0.9.7
 # - docker so we can build a docker image on CI
 # - versioning software
 
-RUN wget -O /tmp/glibc.apk "https://circle-artifacts.com/gh/andyshinn/alpine-pkg-glibc/6/artifacts/0/home/ubuntu/alpine-pkg-glibc/packages/x86_64/glibc-2.21-r2.apk" && \
-    apk add --allow-untrusted /tmp/glibc.apk && \
- 	/usr/glibc/usr/bin/ldconfig /lib /usr/glibc/usr/lib && \
- 	rm /tmp/glibc.apk
-
 RUN apk --update upgrade && \
     apk add --force \
 	bash wget curl bzip2 ca-certificates openssl \
@@ -20,6 +15,11 @@ RUN apk --update upgrade && \
         git subversion \
     && \
     rm -fR /var/cache/apk/*
+
+RUN wget -O /tmp/glibc.apk "https://circle-artifacts.com/gh/andyshinn/alpine-pkg-glibc/6/artifacts/0/home/ubuntu/alpine-pkg-glibc/packages/x86_64/glibc-2.21-r2.apk" && \
+    apk add --allow-untrusted /tmp/glibc.apk && \
+ 	/usr/glibc/usr/bin/ldconfig /lib /usr/glibc/usr/lib && \
+ 	rm /tmp/glibc.apk
 
 ADD https://raw.githubusercontent.com/jpetazzo/dind/master/wrapdocker /usr/local/bin/wrapdocker
 RUN chmod +x /usr/local/bin/wrapdocker
