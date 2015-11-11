@@ -23,11 +23,12 @@ run-bash: build
 	@docker run --rm -ti cusspvz/node:${TAG} /bin/login.sh
 
 fetch-versions:
+	@echo "latest" > versions
 	@wget https://nodejs.org/dist/ -O - 2>/dev/null | \
-	grep "/\">v" | \
+	grep "/\">v" | grep -v isaacs-manual | \
 	sed -e 's/<a href="v\(.*\)\/".*/\1/' | \
 	sort -t . -k1,1nr -k2,1nr -k3,1nr \
-		> versions
+		>> versions
 
 gen-version:
 	@echo "Generating version dockerfiles: ${VERSION_PATH} ${VERSION_ONBUILD_PATH} ${VERSION_DIND_PATH}"

@@ -8,9 +8,9 @@ FROM cusspvz/node:0.5.10
 
 ENV NODE_ENV=production
 RUN apk --update upgrade && \
-    apk add \
+    apk add --force \
         make gcc g++ python linux-headers \
-        docker iptables ca-certificates lxc e2fsprogs \
+        docker@community iptables ca-certificates lxc e2fsprogs \
         git subversion \
     && \
     rm -fR /var/cache/apk/*
