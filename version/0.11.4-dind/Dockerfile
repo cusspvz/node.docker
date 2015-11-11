@@ -9,6 +9,7 @@ FROM cusspvz/node:0.11.4
 ENV NODE_ENV=production
 RUN apk --update upgrade && \
     apk add --force \
+	bash \
         make gcc g++ python linux-headers \
         docker@community iptables ca-certificates lxc e2fsprogs \
         git subversion \
