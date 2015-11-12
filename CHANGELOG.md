@@ -1,3 +1,8 @@
+## 12-Nov-2015
+
+* Added `docker-compose` into `development` image
+* Added `rancher-compose` into `development` image
+
 ## 11-Nov-2015
 
 * Changed `dind` to `development` just because we ended up to use more than just

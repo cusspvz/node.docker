@@ -73,6 +73,7 @@ building it!
 * versioning software: **git** and **svn**
 * build utils, so you don't have problems when running `npm install`
 * Docker-in-Docker, based on `jpetazzo/dind` procedure
+* Container orchestration tools: docker-compose and rancher-compose
 * an Node.js build (are you serious? hahaha)
 
 #### Steps for using it
