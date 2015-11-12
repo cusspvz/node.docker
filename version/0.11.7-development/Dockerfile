@@ -10,41 +10,43 @@ FROM cusspvz/node:0.11.7
 RUN apk --update upgrade && \
     rm -fR /var/cache/apk/*
 
+# Stuff that could be gathered through alpine package manager
+RUN echo "@testing http://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && \
+    echo "@community http://nl.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
+    apk --update --force add \
+        bash wget curl bzip2 ca-certificates openssl openssl-dev \
+        autoconf bison make gcc g++ python linux-headers \
+        libffi-dev gdbm libyaml-dev@testing procps zlib-dev \
+        docker@community iptables ca-certificates lxc e2fsprogs \
+        git subversion \
+    && \
+    mkdir -p /etc/ssl/certs/ && \
+    update-ca-certificates --fresh && \
+    rm -f /bin/ash /bin/sh && \
+    ln -s /bin/bash /bin/ash && \
+    ln -s /bin/bash /bin/sh && \
+    rm -fR /var/cache/apk/*
+
 # glibc for alpine
-RUN wget -O - --no-check-certificate "http://github.com/cusspvz/node.docker/raw/master/apks.tar.gz" | tar xvz -C /tmp && \
-    apk add --allow-untrusted \
+RUN wget -O - "http://github.com/cusspvz/node.docker/raw/master/apks.tar.gz" | tar xvz -C /tmp && \
+    apk add --force --allow-untrusted \
         /tmp/apks/glibc-2.21-r2.apk \
         /tmp/apks/glibc-bin-2.21-r2.apk \
     && \
     /usr/glibc/usr/bin/ldconfig /lib /usr/glibc/usr/lib && \
     rm -fR /tmp/apks /var/cache/apk/*
 
-# Stuff that could be gathered through alpine package manager
-RUN echo "@testing http://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && \
-    echo "@community http://nl.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
-    apk --update add \
-        bash wget curl bzip2 ca-certificates openssl \
-        autoconf bison make gcc g++ python linux-headers \
-        libffi-dev gdbm libyaml-dev@testing procps zlib-dev \
-        docker@community iptables ca-certificates lxc e2fsprogs \
-        git subversion \
-    && \
-    rm -f /bin/ash /bin/sh && \
-    ln -s /bin/bash /bin/ash && \
-    ln -s /bin/bash /bin/sh && \
-    rm -fR /var/cache/apk/*
-
 # Docker compose
-RUN DOCKER_COMPOSE_URL="http://github.com$(wget -O - --no-check-certificate https://github.com/docker/compose/releases/latest | egrep -o '/docker/compose/releases/download/[0-9.]*/docker-compose-Linux-x86_64')"; \
+RUN DOCKER_COMPOSE_URL="http://github.com$(wget -O - https://github.com/docker/compose/releases/latest | egrep -o '/docker/compose/releases/download/[0-9.]*/docker-compose-Linux-x86_64')"; \
     echo $DOCKER_COMPOSE_URL && \
-    wget -O /usr/bin/docker-compose --no-check-certificate "$DOCKER_COMPOSE_URL" && \
+    wget -O /usr/bin/docker-compose "$DOCKER_COMPOSE_URL" && \
     chmod +x /usr/bin/docker-compose && \
     /usr/bin/docker-compose --version
 
 # Rancher compose
-RUN RANCHER_COMPOSE_URL="http://github.com$(wget -O - --no-check-certificate https://github.com/rancher/rancher-compose/releases/latest | egrep -o '/rancher/rancher-compose/releases/download/v[0-9.]*/rancher-compose-linux-amd64-v[0-9.]*.tar.gz')"; \
+RUN RANCHER_COMPOSE_URL="http://github.com$(wget -O - https://github.com/rancher/rancher-compose/releases/latest | egrep -o '/rancher/rancher-compose/releases/download/v[0-9.]*/rancher-compose-linux-amd64-v[0-9.]*.tar.gz')"; \
     echo $RANCHER_COMPOSE_URL && \
-    wget -O - --no-check-certificate "$RANCHER_COMPOSE_URL" | \
+    wget -O - "$RANCHER_COMPOSE_URL" | \
     tar xvz --strip-components=2 -C /usr/bin/ && \
     chmod +x /usr/bin/rancher-compose && \
     /usr/bin/rancher-compose --version
