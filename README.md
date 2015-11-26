@@ -12,7 +12,7 @@ This is a repo for those who work with **Node.js** and **Docker**.
 The propose of it is to cover all the needs since you start writing your first
 file, to your rolling-update deployment.
 
-As so, there are three things you need to know about this:
+As so, there are four things you need to know about this:
 * `node.docker` Launcher - is a command-line tool which is a nice candidate to
   replace all your `node` calls, for a containerized one.
 * `cusspvz/node:onbuild` docker image - Docker image with `ONBUILD` statements
