@@ -85,7 +85,7 @@ building it!
 
 ## Examples
 
-* [simple-http-server](./simple-http-server/README.md)
+* [simple-http-server](./examples/simple-http-server)
 
 ## Versions
 
