@@ -1,5 +1,5 @@
 VERSION ?= latest
-LATEST_VERSION := 4.1.1
+LATEST_VERSION := $(shell sed -n '2p' versions)
 
 ifeq ($(VERSION),latest)
 	VERSION := $(LATEST_VERSION)
@@ -38,7 +38,7 @@ gen-version:
 	@cat Dockerfile.development >> ${VERSION_DEVELOPMENT_PATH}/Dockerfile;
 
 build: gen-version
-	@echo "Building ${TAG}"
+	@echo "Building :${TAG} with ${VERSION} version"
 	@docker build -t cusspvz/node:${TAG} -f ${VERSION_PATH}/Dockerfile .
 
 push: build

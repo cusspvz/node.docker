@@ -263,6 +263,6 @@ env:
 
 script:
 - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
-- make TAG=${NODE_VERSION} push
-- make TAG=${NODE_VERSION}-onbuild push
-- make TAG=${NODE_VERSION}-development push
+- make VERSION=${NODE_VERSION} push
+- make VERSION=${NODE_VERSION}-onbuild push
+- make VERSION=${NODE_VERSION}-development push

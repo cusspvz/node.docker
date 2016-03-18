@@ -3,7 +3,7 @@ MAINTAINER José Moreira <jose.moreira@findhit.com>
 
 RUN apk add --update wget bash tar git libgcc libstdc++;
 ENV NODE_PREFIX=/usr/local \
-    NODE_VERSION=latest
+    NODE_VERSION=5.9.0
 RUN NODE_SOURCE="/usr/src/node"; \
     [ "${NODE_VERSION}" == "latest" ] && { \
         DOWNLOAD_PATH=https://nodejs.org/dist/node-latest.tar.gz; \
