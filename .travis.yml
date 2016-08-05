@@ -287,6 +287,10 @@ env:
     - NODE_VERSION=0.1.15
     - NODE_VERSION=0.1.14
 
+branches:
+  only:
+  - deploy
+
 script:
 - docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD"
 - make VERSION=${NODE_VERSION} push
