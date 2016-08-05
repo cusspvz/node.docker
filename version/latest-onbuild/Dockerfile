@@ -1,4 +1,4 @@
-FROM cusspvz/node:5.9.0
+FROM cusspvz/node:latest
 
 # For sugar automated builds
 ONBUILD ENV NODE_ENV=production

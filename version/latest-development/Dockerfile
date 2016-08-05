@@ -1,4 +1,4 @@
-FROM cusspvz/node:5.9.0
+FROM cusspvz/node:latest
 
 # development image specially created for builds
 # This should include all resources for a node-based project such as:
