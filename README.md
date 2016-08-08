@@ -102,6 +102,32 @@ Others aren't built, or are presenting errors.
 
 * :white_check_mark: latest - `cusspvz/node:latest` `cusspvz/node:onbuild` `cusspvz/node:development`
 
+* :white_check_mark: 6.3.1 - `cusspvz/node:6.3.1` `cusspvz/node:6.3.1-onbuild` `cusspvz/node:6.3.1-development`
+* :white_check_mark: 6.3.0 - `cusspvz/node:6.3.0` `cusspvz/node:6.3.0-onbuild` `cusspvz/node:6.3.0-development`
+* :white_check_mark: 6.2.2 - `cusspvz/node:6.2.2` `cusspvz/node:6.2.2-onbuild` `cusspvz/node:6.2.2-development`
+* :white_check_mark: 6.2.1 - `cusspvz/node:6.2.1` `cusspvz/node:6.2.1-onbuild` `cusspvz/node:6.2.1-development`
+* :white_check_mark: 6.2.0 - `cusspvz/node:6.2.0` `cusspvz/node:6.2.0-onbuild` `cusspvz/node:6.2.0-development`
+* :white_check_mark: 6.1.0 - `cusspvz/node:6.1.0` `cusspvz/node:6.1.0-onbuild` `cusspvz/node:6.1.0-development`
+* :white_check_mark: 6.0.0 - `cusspvz/node:6.0.0` `cusspvz/node:6.0.0-onbuild` `cusspvz/node:6.0.0-development`
+* :white_check_mark: 5.12.0 - `cusspvz/node:5.12.0` `cusspvz/node:5.12.0-onbuild` `cusspvz/node:5.12.0-development`
+* :white_check_mark: 5.11.1 - `cusspvz/node:5.11.1` `cusspvz/node:5.11.1-onbuild` `cusspvz/node:5.11.1-development`
+* :white_check_mark: 5.11.0 - `cusspvz/node:5.11.0` `cusspvz/node:5.11.0-onbuild` `cusspvz/node:5.11.0-development`
+* :white_check_mark: 5.10.1 - `cusspvz/node:5.10.1` `cusspvz/node:5.10.1-onbuild` `cusspvz/node:5.10.1-development`
+* :white_check_mark: 5.10.0 - `cusspvz/node:5.10.0` `cusspvz/node:5.10.0-onbuild` `cusspvz/node:5.10.0-development`
+* :white_check_mark: 5.9.1 - `cusspvz/node:5.9.1` `cusspvz/node:5.9.1-onbuild` `cusspvz/node:5.9.1-development`
+* :white_check_mark: 5.9.0 - `cusspvz/node:5.9.0` `cusspvz/node:5.9.0-onbuild` `cusspvz/node:5.9.0-development`
+* :white_check_mark: 5.8.0 - `cusspvz/node:5.8.0` `cusspvz/node:5.8.0-onbuild` `cusspvz/node:5.8.0-development`
+* :white_check_mark: 5.7.1 - `cusspvz/node:5.7.1` `cusspvz/node:5.7.1-onbuild` `cusspvz/node:5.7.1-development`
+* :white_check_mark: 5.7.0 - `cusspvz/node:5.7.0` `cusspvz/node:5.7.0-onbuild` `cusspvz/node:5.7.0-development`
+* :white_check_mark: 5.6.0 - `cusspvz/node:5.6.0` `cusspvz/node:5.6.0-onbuild` `cusspvz/node:5.6.0-development`
+* :white_check_mark: 5.5.0 - `cusspvz/node:5.5.0` `cusspvz/node:5.5.0-onbuild` `cusspvz/node:5.5.0-development`
+* :white_check_mark: 5.4.1 - `cusspvz/node:5.4.1` `cusspvz/node:5.4.1-onbuild` `cusspvz/node:5.4.1-development`
+* :white_check_mark: 5.4.0 - `cusspvz/node:5.4.0` `cusspvz/node:5.4.0-onbuild` `cusspvz/node:5.4.0-development`
+* :white_check_mark: 5.3.0 - `cusspvz/node:5.3.0` `cusspvz/node:5.3.0-onbuild` `cusspvz/node:5.3.0-development`
+* :white_check_mark: 5.2.0 - `cusspvz/node:5.2.0` `cusspvz/node:5.2.0-onbuild` `cusspvz/node:5.2.0-development`
+* :white_check_mark: 5.1.1 - `cusspvz/node:5.1.1` `cusspvz/node:5.1.1-onbuild` `cusspvz/node:5.1.1-development`
+* :white_check_mark: 5.1.0 - `cusspvz/node:5.1.0` `cusspvz/node:5.1.0-onbuild` `cusspvz/node:5.1.0-development`
+* :white_check_mark: 5.0.0 - `cusspvz/node:5.0.0` `cusspvz/node:5.0.0-onbuild` `cusspvz/node:5.0.0-development`
 * :white_check_mark: 4.2.0 - `cusspvz/node:4.2.0` `cusspvz/node:4.2.0-onbuild` `cusspvz/node:4.2.0-development`
 * :white_check_mark: 4.1.2 - `cusspvz/node:4.1.2` `cusspvz/node:4.1.2-onbuild` `cusspvz/node:4.1.2-development`
 * :white_check_mark: 4.1.1 - `cusspvz/node:4.1.1` `cusspvz/node:4.1.1-onbuild` `cusspvz/node:4.1.1-development`
