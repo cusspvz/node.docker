@@ -1,4 +1,4 @@
-FROM alpine:edge
+FROM alpine:3.2
 MAINTAINER José Moreira <jose.moreira@findhit.com>
 
 RUN apk add --update wget bash tar git libgcc libstdc++;
@@ -33,8 +33,9 @@ RUN NODE_SOURCE="/usr/src/node"; \
         ${NODE_PREFIX}/lib/node_modules/npm/man \
         ${NODE_PREFIX}/lib/node_modules/npm/doc \
         ${NODE_PREFIX}/lib/node_modules/npm/html \
-    ; \
-    mkdir -p /app;
+    && \
+    mkdir -p /app && \
+    exit 0 || exit 1;
 
 WORKDIR /app
 ADD https://raw.githubusercontent.com/cusspvz/node.docker/master/entrypoint /bin/entrypoint

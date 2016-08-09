@@ -8,9 +8,7 @@ else
 	TAG := $(VERSION)
 endif
 
-VERSION_PATH := version/${TAG}/
-VERSION_ONBUILD_PATH := version/${TAG}-onbuild/
-VERSION_DEVELOPMENT_PATH := version/${TAG}-development/
+VERSION_PATH := version/${TAG}
 
 clean: clean-all-docker-images
 
@@ -28,25 +26,41 @@ fetch-versions:
 	sort -t . -k1,1nr -k2,1nr -k3,1nr \
 		>> versions
 
-gen-version:
-	@echo "Generating version dockerfiles: ${VERSION_PATH} ${VERSION_ONBUILD_PATH} ${VERSION_DEVELOPMENT_PATH}"
-	@mkdir -p ${VERSION_PATH} ${VERSION_ONBUILD_PATH} ${VERSION_DEVELOPMENT_PATH}
+generate-version:
+	@echo "Generating version dockerfiles: ${VERSION_PATH}"
+	@mkdir -p ${VERSION_PATH}
 	@cat Dockerfile | sed -e "s/NODE_VERSION=latest/NODE_VERSION=${VERSION}/" >${VERSION_PATH}/Dockerfile
-	@echo "FROM cusspvz/node:${VERSION}" >${VERSION_ONBUILD_PATH}/Dockerfile
-	@cat Dockerfile.onbuild >> ${VERSION_ONBUILD_PATH}/Dockerfile;
-	@echo "FROM cusspvz/node:${VERSION}" >${VERSION_DEVELOPMENT_PATH}/Dockerfile
-	@cat Dockerfile.development >> ${VERSION_DEVELOPMENT_PATH}/Dockerfile;
+	@echo "FROM cusspvz/node:${VERSION}" >${VERSION_PATH}/Dockerfile.onbuild;
+	@cat Dockerfile.onbuild >> ${VERSION_PATH}/Dockerfile.onbuild;
+	@echo "FROM cusspvz/node:${VERSION}" >${VERSION_PATH}/Dockerfile.development;
+	@cat Dockerfile.development >> ${VERSION_PATH}/Dockerfile.development;
 
-build: gen-version
+generate-tag-version: generate-version
+	cp .travis.version.yml ${VERSION_PATH}/.travis.yml && \
+	cd ${VERSION_PATH} && \
+	rm -fR .git && \
+	git init && \
+	git remote add origin git@github.com:cusspvz/node.docker.git && \
+	git checkout -b ${VERSION_PATH} && \
+	git add . && \
+	git commit -m ${VERSION_PATH} && \
+	git push origin ${VERSION_PATH} --force;
+
+build: generate-version
 	@echo "Building :${TAG} with ${VERSION} version"
 	@docker build -t cusspvz/node:${TAG} -f ${VERSION_PATH}/Dockerfile .
 
 push: build
 	docker push cusspvz/node:${TAG}
 
-gen-version-all:
+generate-version-all:
 	@for VERSION in $(shell cat versions); do \
-		make VERSION=$$VERSION gen-version; \
+		make VERSION=$$VERSION generate-version; \
+	done;
+
+generate-tag-version-all:
+	@for VERSION in $(shell cat versions); do \
+		make VERSION=$$VERSION generate-tag-version; \
 	done;
 
 build-all: fetch-versions

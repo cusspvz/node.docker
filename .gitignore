@@ -1,2 +1,3 @@
 Dockerfile.tmp
 .dockerhubbuildtoken
+version/
