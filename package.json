@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Super small Node.js container (~20MB) based on Alpine Linux OS",
   "bin": {
-    "node.docker": "launcher"
+    "node.docker": "bin/launcher"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",

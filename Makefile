@@ -20,22 +20,23 @@ run-bash: build
 	@docker run --rm -ti cusspvz/node:${TAG} /bin/login.sh
 
 fetch-versions:
-	@echo "latest" > versions
+	@echo "latest" > ./versions
 	@wget https://nodejs.org/dist/ -O - 2>/dev/null | \
 	grep "/\">v" | grep -v isaacs-manual | \
 	sed -e 's/<a href="v\(.*\)\/".*/\1/' | \
 	sort -t . -k1,1nr -k2,1nr -k3,1nr \
-		>> versions
+		>> ./versions
+	@cat versions
 
 generate-version:
 	@echo "Generating version dockerfiles: ${VERSION_PATH}"
 	@mkdir -p ${VERSION_PATH}
-	@cat Dockerfile | sed -e "s/NODE_VERSION=latest/NODE_VERSION=${VERSION}/" >${VERSION_PATH}/Dockerfile
+	@cat src/Dockerfile | sed -e "s/NODE_VERSION=latest/NODE_VERSION=${VERSION}/" >${VERSION_PATH}/Dockerfile
 	@echo "FROM cusspvz/node:${VERSION}" >${VERSION_PATH}/Dockerfile.onbuild;
-	@cat Dockerfile.onbuild >> ${VERSION_PATH}/Dockerfile.onbuild;
+	@cat src/Dockerfile.onbuild >> ${VERSION_PATH}/Dockerfile.onbuild;
 	@echo "FROM cusspvz/node:${VERSION}" >${VERSION_PATH}/Dockerfile.development;
-	@cat Dockerfile.development >> ${VERSION_PATH}/Dockerfile.development;
-	@cp .travis.version.yml ${VERSION_PATH}/.travis.yml;
+	@cat src/Dockerfile.development >> ${VERSION_PATH}/Dockerfile.development;
+	@cp src/.travis.yml ${VERSION_PATH}/.travis.yml;
 
 generate-tag-version:
 	@rm -fR ${VERSION_PATH} && \
@@ -65,17 +66,17 @@ generate-tag-version:
 
 build: generate-version
 	@echo "Building :${TAG} with ${VERSION} version"
-	@docker build -t cusspvz/node:${TAG} -f ${VERSION_PATH}/Dockerfile .
+	@docker build -t cusspvz/node:${TAG} ${VERSION_PATH}
 
 push: build
 	docker push cusspvz/node:${TAG}
 
-generate-version-all:
+generate-version-all: fetch-versions
 	@for VERSION in $(shell cat versions); do \
 		make VERSION=$$VERSION generate-version; \
 	done;
 
-generate-tag-version-all:
+generate-tag-version-all: fetch-versions
 	@for VERSION in $(shell cat versions); do \
 		make VERSION=$$VERSION generate-tag-version; \
 	done;
