@@ -4,7 +4,7 @@ env:
 
 before_install:
   - |
-    declare -r SSH_FILE="$(mktemp -u $HOME/.ssh/github_deploy_key)"
+    declare -r SSH_FILE="$(mktemp -u $HOME/.ssh/XXXXX)"
 
     # decrypt
     openssl aes-256-cbc \
@@ -16,7 +16,9 @@ before_install:
     # Setup ssh
     cp "$SSH_FILE" ${SSH_FILE}
     chmod -f 600 ${SSH_FILE}
+
     printf "%s\n" \
+      "" \
       "Host github.com" \
       "  IdentityFile ${SSH_FILE}" \
       "  LogLevel ERROR" \
