@@ -89,3 +89,5 @@ push-all: fetch-versions
 	@for VERSION in $(shell cat versions); do \
 		make VERSION=$$VERSION push; \
 	done;
+
+deploy: generate-tag-version-all
