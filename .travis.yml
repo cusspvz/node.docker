@@ -15,17 +15,21 @@ before_install:
       -out "$SSH_FILE" -d
 
     # Setup ssh
-    cp "$SSH_FILE" ~/.ssh/id_rsa
-    chmod 600 ~/.ssh/id_rsa
+    cp "$SSH_FILE" ~/.ssh/github_id_rsa
+    chmod -f 600 ~/.ssh/github_id_rsa
     printf "%s\n" \
       "Host github.com" \
-      "  IdentityFile ~/.ssh/id_rsa" \
+      "  IdentityFile ~/.ssh/github_id_rsa" \
       "  LogLevel ERROR" \
     >> ~/.ssh/config
 
     # Setup git
     git config --global user.email "$GH_USER_EMAIL"
     git config --global user.name "$GH_USER_NAME"
+
+    # Lets check if we can talk!
+    echo "Hey github.com, could you please tell me where to hide?"
+    ssh -T git@github.com
 
 script:
   - make deploy
