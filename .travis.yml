@@ -20,5 +20,8 @@ before_install:
       "  IdentityFile $SSH_FILE" \
       "  LogLevel ERROR" >> ~/.ssh/config
 
+    git config --global user.email "$GH_USER_EMAIL"
+    git config --global user.name "$GH_USER_NAME"
+
 script:
   - make deploy
