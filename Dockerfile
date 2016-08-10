@@ -1,7 +1,7 @@
 FROM alpine:3.4
 MAINTAINER José Moreira <jose.moreira@findhit.com>
 
-RUN apk add --update wget bash tar git libgcc libstdc++;
+RUN apk add --update wget bash tar git libgcc libstdc++ openssl;
 ENV NODE_PREFIX=/usr/local \
     NODE_VERSION=6.2.1
 RUN NODE_SOURCE="/usr/src/node"; \
@@ -10,8 +10,8 @@ RUN NODE_SOURCE="/usr/src/node"; \
     } || { \
         DOWNLOAD_PATH=https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}.tar.gz; \
     }; \
-    APK_NEEDS="make gcc g++ python linux-headers paxctl binutils-gold openssl-dev"; \
-    apk add --update $APK_NEEDS && \
+    BUILD_NEEDS="make gcc clang g++ python linux-headers paxctl binutils-gold openssl-dev"; \
+    apk add --update $BUILD_NEEDS && \
     mkdir -p $NODE_SOURCE && \
     wget --no-check-certificate -O - $DOWNLOAD_PATH -nv | tar -xz --strip-components=1 -C $NODE_SOURCE && \
     cd $NODE_SOURCE && \
@@ -20,7 +20,7 @@ RUN NODE_SOURCE="/usr/src/node"; \
     make install && \
     paxctl -cm ${NODE_PREFIX}/bin/node && \
     cd / && \
-    apk del $APK_NEEDS && \
+    apk del $BUILD_NEEDS && \
     rm -rf \
         ${NODE_SOURCE} \
         /etc/ssl \
