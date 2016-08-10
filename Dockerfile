@@ -1,4 +1,4 @@
-FROM alpine:3.2
+FROM alpine:3.4
 MAINTAINER José Moreira <jose.moreira@findhit.com>
 
 RUN apk add --update wget bash tar git libgcc libstdc++;
@@ -10,7 +10,7 @@ RUN NODE_SOURCE="/usr/src/node"; \
     } || { \
         DOWNLOAD_PATH=https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}.tar.gz; \
     }; \
-    APK_NEEDS="make gcc g++ python linux-headers paxctl"; \
+    APK_NEEDS="make gcc g++ python linux-headers paxctl binutils-gold openssl-dev"; \
     apk add --update $APK_NEEDS && \
     mkdir -p $NODE_SOURCE && \
     wget --no-check-certificate -O - $DOWNLOAD_PATH -nv | tar -xz --strip-components=1 -C $NODE_SOURCE && \
