@@ -7,19 +7,23 @@ before_install:
 
     declare -r SSH_FILE="$(realpath .travis/github_deploy_key)"
 
+    # decrypt
     openssl aes-256-cbc \
       -K $encrypted_c0f12bd67831_key \
       -iv $encrypted_c0f12bd67831_iv \
       -in ".travis/github_deploy_key.enc" \
       -out "$SSH_FILE" -d
 
-    chmod 600 "$SSH_FILE"
-
+    # Setup ssh
+    cp "$SSH_FILE" ~/.ssh/id_rsa
+    chmod 600 ~/.ssh/id_rsa
     printf "%s\n" \
       "Host github.com" \
-      "  IdentityFile $SSH_FILE" \
-      "  LogLevel ERROR" >> ~/.ssh/config
+      "  IdentityFile ~/.ssh/id_rsa" \
+      "  LogLevel ERROR" \
+    >> ~/.ssh/config
 
+    # Setup git
     git config --global user.email "$GH_USER_EMAIL"
     git config --global user.name "$GH_USER_NAME"
 
