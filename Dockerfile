@@ -7,7 +7,7 @@ ENV NODE_PREFIX=/usr/local \
     NODE_SOURCE=/usr/src/node \
     BASE_APKS="bash" \
     BUILD_APKS="git curl wget bzip2 tar make gcc libgcc libstdc++ clang g++ python linux-headers paxctl binutils-gold autoconf bison zlib-dev openssl openssl-dev ca-certificates" \
-    NODE_CONFIG_FLAGS=""
+    NODE_CONFIG_FLAGS="--shared-openssl"
 
 RUN [ "${NODE_VERSION}" == "latest" ] && { \
         DOWNLOAD_PATH=https://nodejs.org/dist/node-latest.tar.gz; \
