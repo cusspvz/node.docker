@@ -16,7 +16,7 @@ RUN [ "${NODE_VERSION}" == "latest" ] && { \
     }; \
     apk add --update $BASE_APKS $BUILD_APKS && \
     mkdir -p $NODE_SOURCE && \
-    wget --no-check-certificate -O - $DOWNLOAD_PATH -nv | tar -xz --strip-components=1 -C $NODE_SOURCE && \
+    wget -O - $DOWNLOAD_PATH -nv | tar -xz --strip-components=1 -C $NODE_SOURCE && \
     cd $NODE_SOURCE && \
     export GYP_DEFINES="linux_use_gold_flags=0" && \
     ./configure --prefix=$NODE_PREFIX $NODE_CONFIG_FLAGS && \
