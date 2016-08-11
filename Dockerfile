@@ -1,26 +1,33 @@
 FROM alpine:3.4
 MAINTAINER José Moreira <jose.moreira@findhit.com>
 
-RUN apk add --update wget bash tar git libgcc libstdc++ openssl;
 ENV NODE_PREFIX=/usr/local \
-    NODE_VERSION=0.1.96
-RUN NODE_SOURCE="/usr/src/node"; \
-    [ "${NODE_VERSION}" == "latest" ] && { \
+    NODE_VERSION=0.1.96 \
+    NPM_VERSION=latest \
+    NODE_SOURCE=/usr/src/node \
+    BASE_APKS="bash" \
+    BUILD_APKS="git curl wget bzip2 tar make gcc libgcc libstdc++ clang g++ python linux-headers paxctl binutils-gold autoconf bison zlib-dev openssl openssl-dev ca-certificates" \
+    NODE_CONFIG_FLAGS=""
+
+RUN [ "${NODE_VERSION}" == "latest" ] && { \
         DOWNLOAD_PATH=https://nodejs.org/dist/node-latest.tar.gz; \
     } || { \
         DOWNLOAD_PATH=https://nodejs.org/dist/v${NODE_VERSION}/node-v${NODE_VERSION}.tar.gz; \
     }; \
-    BUILD_NEEDS="make gcc clang g++ python linux-headers paxctl binutils-gold openssl-dev"; \
-    apk add --update $BUILD_NEEDS && \
+    apk add --update $BASE_APKS $BUILD_APKS && \
     mkdir -p $NODE_SOURCE && \
     wget --no-check-certificate -O - $DOWNLOAD_PATH -nv | tar -xz --strip-components=1 -C $NODE_SOURCE && \
     cd $NODE_SOURCE && \
-    ./configure --prefix=$NODE_PREFIX && \
+    ./configure --prefix=$NODE_PREFIX $NODE_CONFIG_FLAGS && \
     make -j$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1) && \
     make install && \
     paxctl -cm ${NODE_PREFIX}/bin/node && \
     cd / && \
-    apk del $BUILD_NEEDS && \
+    if [ -x /usr/bin/npm ]; then \
+      npm install -g npm@${NPM_VERSION} && \
+      find /usr/lib/node_modules/npm -name test -o -name .bin -type d | xargs rm -rf; \
+    fi && \
+    apk del $BUILD_APKS && \
     rm -rf \
         ${NODE_SOURCE} \
         /etc/ssl \
