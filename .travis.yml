@@ -14,9 +14,7 @@ before_install:
       -out "${SSH_FILE}" -d
 
     # Setup ssh
-    cp "$SSH_FILE" ${SSH_FILE}
     chmod -f 600 ${SSH_FILE}
-
     printf "%s\n" \
       "" \
       "Host github.com" \
@@ -27,12 +25,6 @@ before_install:
     # Setup git
     git config --global user.email "${GH_USER_EMAIL}"
     git config --global user.name "${GH_USER_NAME}"
-
-    # Lets check if we can talk!
-    echo "Hey github.com, could you please tell me where to hide?"
-    ssh -T git@github.com
-
-    exit 0
 
 script:
   - make deploy
