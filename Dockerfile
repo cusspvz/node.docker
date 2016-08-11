@@ -6,8 +6,8 @@ ENV NODE_PREFIX=/usr/local \
     NPM_VERSION=latest \
     NODE_SOURCE=/usr/src/node \
     BASE_APKS="bash" \
-    BUILD_APKS="git wget tar make gcc libgcc libstdc++ clang g++ python linux-headers paxctl binutils-gold" \
-    CONFIG_FLAGS="--without-ssl"
+    BUILD_APKS="git curl wget bzip2 tar make gcc libgcc libstdc++ clang g++ python linux-headers paxctl binutils-gold autoconf bison zlib-dev openssl openssl-dev ca-certificates" \
+    NODE_CONFIG_FLAGS=""
 
 RUN [ "${NODE_VERSION}" == "latest" ] && { \
         DOWNLOAD_PATH=https://nodejs.org/dist/node-latest.tar.gz; \
@@ -18,7 +18,7 @@ RUN [ "${NODE_VERSION}" == "latest" ] && { \
     mkdir -p $NODE_SOURCE && \
     wget --no-check-certificate -O - $DOWNLOAD_PATH -nv | tar -xz --strip-components=1 -C $NODE_SOURCE && \
     cd $NODE_SOURCE && \
-    ./configure --prefix=$NODE_PREFIX $CONFIG_FLAGS && \
+    ./configure --prefix=$NODE_PREFIX $NODE_CONFIG_FLAGS && \
     make -j$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1) && \
     make install && \
     paxctl -cm ${NODE_PREFIX}/bin/node && \
