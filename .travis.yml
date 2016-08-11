@@ -1,6 +1,6 @@
-env:
-  global:
-    - secure: "Xvibzv8wX3Z43eMydWgqpiRdO89v1vz4GmMCc353s624rsT+nXe/prCqDSJp4yfz/77U5RQVwSeQeKAFaNc9GQ4Slip8nWaeu7aptmIaE83SdeQvTGp9Ls15yt8NvORztIp98knNezOy8hQMN/7joQ3C1si119CfvsIvNlVVtZn4xGdEwjkh9i/KQ9foHjnX4mjYv5e15gFcmPBZaOdmNhHAqaY1E+46ahVSOWYN/am/0OpPrR3cbj4GL7KSFR3cXAQ61EsfGtyHcW7tyWVXoixbbuN1npXlQN94Nu9yT1e8o+IFvRhpaUG245aA8BfZTxkXcTF9yf6M4oFrUsTyPqA9BICT5HBxycUYOEJVCSiq08h3/qlva4o21vH6EaMwlp6AM+pfecwH/4YxSFVQPPSftYpcFjAsvPv2B/9ozCdS96cD76YZGPTGWXDVe1df8SzigDDd5NyK8/uRIz5XC8lAm3mLxE5apfZvWGSCENMhYNw1hs8FNw9qmLeAxQDMmZjCJb6uQRaL1cF3gkn/6hDnib1gMryWl7jVYtVucZXTo/je8nb77cowIgR30PtIRdF38/2vCc+Tz5kFKKGZiJmk2B903xZwgoQvYnZs7r+4zXVPaNoSpjcMfB4pdXcuT6PFPrSVxH6Zrivzbz/6owKN62MtRNVSCvqo1P0NZ9c="
+branches:
+  only:
+  - master
 
 before_install:
   - |
@@ -23,8 +23,8 @@ before_install:
     >> ~/.ssh/config
 
     # Setup git
-    git config --global user.email "${GH_USER_EMAIL}"
-    git config --global user.name "${GH_USER_NAME}"
+    git config --global user.email "jose.moreira@findhit.com"
+    git config --global user.name "José Moreira"
 
 script:
   - make deploy
