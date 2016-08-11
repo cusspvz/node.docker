@@ -8,17 +8,16 @@ FROM cusspvz/node:0.9.2
 
 # Upgrade image before doing stuff
 RUN apk --update upgrade && \
+    apk add $BUILD_APKS && \
     rm -fR /var/cache/apk/*
 
 # Stuff that could be gathered through alpine package manager
 RUN echo "@testing http://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && \
     echo "@community http://nl.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
     apk --update --force add \
-        bash wget curl bzip2 ca-certificates openssl openssl-dev \
-        autoconf bison make gcc g++ python linux-headers \
-        libffi-dev gdbm libyaml-dev@testing procps zlib-dev \
-        docker@community iptables ca-certificates lxc e2fsprogs \
-        git subversion \
+        libffi-dev gdbm libyaml-dev@testing procps \
+        docker@community iptables lxc e2fsprogs \
+        subversion \
     && \
     mkdir -p /etc/ssl/certs/ && \
     update-ca-certificates --fresh && \
