@@ -32,5 +32,7 @@ before_install:
     echo "Hey github.com, could you please tell me where to hide?"
     ssh -T git@github.com
 
+    exit 0
+
 script:
   - make deploy
