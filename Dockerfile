@@ -38,7 +38,7 @@ RUN NODE_SOURCE="/usr/src/node"; \
     exit 0 || exit 1;
 
 WORKDIR /app
-ADD https://raw.githubusercontent.com/cusspvz/node.docker/master/entrypoint /bin/entrypoint
+ADD https://raw.githubusercontent.com/cusspvz/node.docker/master/src/entrypoint /bin/entrypoint
 RUN chmod +x /bin/entrypoint
 ENTRYPOINT [ "/bin/entrypoint" ]
 CMD [ "" ]
