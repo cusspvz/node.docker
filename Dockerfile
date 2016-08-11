@@ -7,7 +7,7 @@ ENV NODE_PREFIX=/usr/local \
     NODE_SOURCE=/usr/src/node \
     BASE_APKS="bash" \
     BUILD_APKS="git curl wget bzip2 tar make gcc libgcc libstdc++ clang g++ python linux-headers paxctl binutils-gold autoconf bison zlib-dev openssl openssl-dev ca-certificates" \
-    NODE_CONFIG_FLAGS=""
+    NODE_CONFIG_FLAGS="--shared-openssl"
 
 RUN [ "${NODE_VERSION}" == "latest" ] && { \
         DOWNLOAD_PATH=https://nodejs.org/dist/node-latest.tar.gz; \
@@ -18,6 +18,7 @@ RUN [ "${NODE_VERSION}" == "latest" ] && { \
     mkdir -p $NODE_SOURCE && \
     wget --no-check-certificate -O - $DOWNLOAD_PATH -nv | tar -xz --strip-components=1 -C $NODE_SOURCE && \
     cd $NODE_SOURCE && \
+    export GYP_DEFINES="linux_use_gold_flags=0" && \
     ./configure --prefix=$NODE_PREFIX $NODE_CONFIG_FLAGS && \
     make -j$(grep -c ^processor /proc/cpuinfo 2>/dev/null || 1) && \
     make install && \
@@ -37,6 +38,7 @@ RUN [ "${NODE_VERSION}" == "latest" ] && { \
         /var/cache/apk/* \
         /root/.npm \
         /root/.node-gyp \
+        /root/.gnupg \
         ${NODE_PREFIX}/lib/node_modules/npm/man \
         ${NODE_PREFIX}/lib/node_modules/npm/doc \
         ${NODE_PREFIX}/lib/node_modules/npm/html \
