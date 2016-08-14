@@ -19,6 +19,12 @@ if [ "$1" == "test" ]; then
     exit $?
 fi
 
+if [ "$1" == "ping" ]; then
+    cd /app
+    exec $NODE_PREFIX/bin/npm -e "pong"
+    exit $?
+fi
+
 if [ "$1" == "shell" ] || \
    [ "$1" == "sh" ] || \
    [ "$1" == "bash" ] || \
