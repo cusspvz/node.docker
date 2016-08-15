@@ -35,4 +35,5 @@ if [ "$1" == "shell" ] || \
     exit $?
 fi
 
-echo "feature not implemented, please change entrypoint"
+echo "feature not recognized, executing the command directly"
+exec $@
