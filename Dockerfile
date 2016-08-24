@@ -5,8 +5,8 @@ ENV NODE_PREFIX=/usr/local \
     NODE_VERSION=0.10.17 \
     NPM_VERSION=latest \
     NODE_SOURCE=/usr/src/node \
-    BASE_APKS="bash libgcc libstdc++" \
-    BUILD_APKS="git curl wget bzip2 tar make gcc clang g++ python linux-headers paxctl binutils-gold autoconf bison zlib-dev openssl openssl-dev ca-certificates" \
+    BASE_APKS="bash libgcc libstdc++ openssl ca-certificates" \
+    BUILD_APKS="git curl wget bzip2 tar make gcc clang g++ python linux-headers paxctl binutils-gold autoconf bison zlib-dev openssl-dev" \
     NODE_CONFIG_FLAGS="--shared-openssl"
 
 RUN [ "${NODE_VERSION}" == "latest" ] && { \
