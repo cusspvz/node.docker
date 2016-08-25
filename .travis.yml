@@ -7,14 +7,14 @@ script:
   - |
     export VERSION=$(basename $TRAVIS_BRANCH) &&
     docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" &&
-    docker build -t cusspvz/node:${VERSION} . &&
+    docker build -t cusspvz/node:latest . &&
 
-    docker run -ti --rm cusspvz/node:${VERSION} ping &&
+    docker run -ti --rm cusspvz/node:latest ping &&
 
-    docker build -t cusspvz/node:${VERSION}-onbuild -f Dockerfile.onbuild . &&
-    docker build -t cusspvz/node:${VERSION}-development -f Dockerfile.development . &&
+    docker build -t cusspvz/node:onbuild -f Dockerfile.onbuild . &&
+    docker build -t cusspvz/node:development -f Dockerfile.development . &&
 
     docker push cusspvz/node:${VERSION} &&
-    docker push cusspvz/node:${VERSION}-onbuild &&
-    docker push cusspvz/node:${VERSION}-development &&
+    docker push cusspvz/node:onbuild &&
+    docker push cusspvz/node:development &&
     exit 0 || exit 1
