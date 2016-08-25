@@ -1,0 +1,20 @@
+sudo: required
+
+services:
+  - docker
+
+script:
+  - |
+    export VERSION=$(basename $TRAVIS_BRANCH) &&
+    docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" &&
+    docker build -t cusspvz/node:latest . &&
+
+    docker run -ti --rm cusspvz/node:latest ping &&
+
+    docker build -t cusspvz/node:onbuild -f Dockerfile.onbuild . &&
+    docker build -t cusspvz/node:development -f Dockerfile.development . &&
+
+    docker push cusspvz/node:latest &&
+    docker push cusspvz/node:onbuild &&
+    docker push cusspvz/node:development &&
+    exit 0 || exit 1

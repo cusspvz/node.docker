@@ -36,7 +36,13 @@ generate-version:
 	@cat src/Dockerfile.onbuild >> ${VERSION_PATH}/Dockerfile.onbuild;
 	@echo "FROM cusspvz/node:${VERSION}" >${VERSION_PATH}/Dockerfile.development;
 	@cat src/Dockerfile.development >> ${VERSION_PATH}/Dockerfile.development;
+ifeq ($(VERSION),latest)
+	@cp src/.travis.latest.yml ${VERSION_PATH}/.travis.yml;
+else
 	@cp src/.travis.yml ${VERSION_PATH}/.travis.yml;
+endif
+
+
 
 generate-tag-version:
 	@rm -fR ${VERSION_PATH} && \
