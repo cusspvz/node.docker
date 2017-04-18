@@ -4,6 +4,7 @@ MAINTAINER José Moreira <jose.moreira@findhit.com>
 ENV NODE_PREFIX=/usr/local \
     NODE_VERSION=0.10.6 \
     NPM_VERSION=latest \
+    YARN_VERSION=latest \
     NODE_SOURCE=/usr/src/node \
     BASE_APKS="bash libgcc libstdc++ openssl ca-certificates" \
     BUILD_APKS="git curl wget bzip2 tar make gcc clang g++ python linux-headers paxctl binutils-gold autoconf bison zlib-dev openssl-dev" \
@@ -25,7 +26,7 @@ RUN [ "${NODE_VERSION}" == "latest" ] && { \
     paxctl -cm ${NODE_PREFIX}/bin/node && \
     cd / && \
     if [ -x /usr/bin/npm ]; then \
-      npm install -g npm@${NPM_VERSION} && \
+      npm install -g npm@${NPM_VERSION} yarn@${YARN_VERSION} && \
       find /usr/lib/node_modules/npm -name test -o -name .bin -type d | xargs rm -rf; \
     fi && \
     apk del $BUILD_APKS && \
