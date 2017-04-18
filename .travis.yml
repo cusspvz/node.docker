@@ -12,6 +12,7 @@ script:
     docker run -ti --rm cusspvz/node:${VERSION} ping &&
 
     docker build -t cusspvz/node:${VERSION}-onbuild -f Dockerfile.onbuild . &&
+    docker build -t cusspvz/node:${VERSION}-onbuild-yarn -f Dockerfile.onbuild-yarn . &&
     docker build -t cusspvz/node:${VERSION}-development -f Dockerfile.development . &&
 
     docker push cusspvz/node:${VERSION} &&
