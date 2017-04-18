@@ -34,6 +34,8 @@ generate-version:
 	@cat src/Dockerfile | sed -e "s/NODE_VERSION=latest/NODE_VERSION=${VERSION}/" >${VERSION_PATH}/Dockerfile
 	@echo "FROM cusspvz/node:${VERSION}" >${VERSION_PATH}/Dockerfile.onbuild;
 	@cat src/Dockerfile.onbuild >> ${VERSION_PATH}/Dockerfile.onbuild;
+	@echo "FROM cusspvz/node:${VERSION}" >${VERSION_PATH}/Dockerfile.onbuild-yarn;
+	@cat src/Dockerfile.onbuild-yarn >> ${VERSION_PATH}/Dockerfile.onbuild-yarn;
 	@echo "FROM cusspvz/node:${VERSION}" >${VERSION_PATH}/Dockerfile.development;
 	@cat src/Dockerfile.development >> ${VERSION_PATH}/Dockerfile.development;
 ifeq ($(VERSION),latest)
