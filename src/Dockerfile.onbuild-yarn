@@ -4,7 +4,7 @@ ONBUILD ENV NODE_ENV=production
 ONBUILD ADD . /app
 ONBUILD RUN \
     echo ""                                                                     && \
-    echo "# Welcome to cusspvz/node onbuild!"                                   && \
+    echo "# Welcome to cusspvz/node onbuild-yarn!"                              && \
     echo ""                                                                     && \
     echo "Here are a few notes you must know:"                                  && \
     echo " - preinstall script: Set preinstall script on your package.json in"  && \
