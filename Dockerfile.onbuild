@@ -28,7 +28,7 @@ ONBUILD RUN \
     echo "--"                                                                   && \
     apk --update add $BUILD_APKS && \
         npm install && \
-    apk del $BUILD_NEEDS && \
+    apk del $BUILD_APKS && \
     rm -fR /var/cache/apk/*
 
 ONBUILD RUN npm run build
