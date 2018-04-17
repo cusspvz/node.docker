@@ -6,7 +6,7 @@ services:
 script:
   - |
     export VERSION=$(basename $TRAVIS_BRANCH) &&
-    docker login -e="$DOCKER_EMAIL" -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" &&
+    docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD" &&
     docker build -t cusspvz/node:latest . &&
 
     docker run -ti --rm cusspvz/node:latest ping &&
