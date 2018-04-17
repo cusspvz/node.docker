@@ -6,18 +6,19 @@ FROM cusspvz/node:6.5.0
 # - docker so we can build a docker image on CI
 # - versioning software
 
-# Upgrade image before doing stuff
-RUN apk --update upgrade && \
-    apk add $BUILD_APKS && \
-    rm -fR /var/cache/apk/*
-
 # Stuff that could be gathered through alpine package manager
-RUN echo "@testing http://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && \
-    echo "@community http://nl.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
-    apk --update --force add \
-        libffi-dev gdbm libyaml-dev@testing procps \
-        docker@community iptables lxc e2fsprogs \
+RUN rm -f /etc/apk/repositories && \
+    echo "http://dl-cdn.alpinelinux.org/alpine/edge/main" >> /etc/apk/repositories && \
+    echo "http://dl-cdn.alpinelinux.org/alpine/edge/testing" >> /etc/apk/repositories && \
+    echo "http://dl-cdn.alpinelinux.org/alpine/edge/community" >> /etc/apk/repositories && \
+    apk update && apk upgrade && \
+    apk add \
+        $BUILD_APKS \
+        imagemagick graphicsmagick vips-dev fftw-dev libjpeg-turbo-dev jpeg-dev \
+        libffi-dev gdbm yaml-dev procps \
+        docker iptables lxc e2fsprogs \
         subversion \
+        jq \
     && \
     mkdir -p /etc/ssl/certs/ && \
     update-ca-certificates --fresh && \
@@ -27,7 +28,7 @@ RUN echo "@testing http://nl.alpinelinux.org/alpine/edge/testing" >> /etc/apk/re
     rm -fR /var/cache/apk/*
 
 # glibc for alpine
-RUN wget -O - "http://github.com/cusspvz/node.docker/raw/master/apks.tar.gz" | tar xvz -C /tmp && \
+RUN wget -O - "https://github.com/cusspvz/node.docker/raw/master/apks.tar.gz" | tar xvz -C /tmp && \
     apk add --force --allow-untrusted \
         /tmp/apks/glibc-2.21-r2.apk \
         /tmp/apks/glibc-bin-2.21-r2.apk \
@@ -36,16 +37,12 @@ RUN wget -O - "http://github.com/cusspvz/node.docker/raw/master/apks.tar.gz" | t
     rm -fR /tmp/apks /var/cache/apk/*
 
 # Docker compose
-RUN DOCKER_COMPOSE_URL="http://github.com$(wget -O - https://github.com/docker/compose/releases/latest | egrep -o '/docker/compose/releases/download/[0-9.]*/docker-compose-Linux-x86_64')"; \
-    echo $DOCKER_COMPOSE_URL && \
-    wget -O /usr/bin/docker-compose "$DOCKER_COMPOSE_URL" && \
+RUN wget -O /usr/bin/docker-compose $(curl -s https://api.github.com/repos/docker/compose/releases/latest | jq --raw-output '[ .assets[] | .browser_download_url | if match("Linux-x86_64") then tostring else "" end ] | .[0]') && \
     chmod +x /usr/bin/docker-compose && \
     /usr/bin/docker-compose --version
 
 # Rancher compose
-RUN RANCHER_COMPOSE_URL="http://github.com$(wget -O - https://github.com/rancher/rancher-compose/releases/latest | egrep -o '/rancher/rancher-compose/releases/download/v[0-9.]*/rancher-compose-linux-amd64-v[0-9.]*.tar.gz')"; \
-    echo $RANCHER_COMPOSE_URL && \
-    wget -O - "$RANCHER_COMPOSE_URL" | \
+RUN wget -O - $(curl -s https://api.github.com/repos/rancher/rancher-compose/releases/latest | jq --raw-output '[ .assets[] | .browser_download_url | if match("linux-amd64") then tostring else "" end ] | .[0]') | \
     tar xvz --strip-components=2 -C /usr/bin/ && \
     chmod +x /usr/bin/rancher-compose && \
     /usr/bin/rancher-compose --version
